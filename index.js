@@ -50,7 +50,7 @@ function generate(color,times){
 	console.log(questions);
 }
 $(document).ready(function(){
-    function showKey(color){
+     let showKey= (color)=>{
         if(color == 1){
 		  for(let i=0;i<buttons.entity.length/2;i++)
             $("#"+buttons.entity[i].key).removeClass( "original" ).addClass( "choose_r" ).text(i+1);
@@ -60,19 +60,19 @@ $(document).ready(function(){
             $('#'+buttons.entity[buttons.entity.length/2+i].key).removeClass( "original" ).addClass( "choose_b" ).text(i+1);
         }
     }
-    function tap_handler(event){
+    let tap_handler = (event)=>{
         $('#'+buttons.entity[buttons.now].key).removeClass( "choose_"+buttons.entity[buttons.now].color ).addClass( "original" ).text("");
 		if(buttons.entity[buttons.now].color=='r'){
           buttons.num_r = buttons.num_r -1;
           if(buttons.num_r==1){
-            generate(0,3); 
+            generate(0,buttons.entity.length/2); 
             showKey(0);
           }
 		}
 		else {	
           buttons.num_b = buttons.num_b -1;
           if(buttons.num_b==1){
-            generate(1,3); 
+            generate(1,buttons.entity.length/2); 
             showKey(1);
           }
 		}
@@ -87,7 +87,7 @@ $(document).ready(function(){
 		console.log(event);
         console.log(results);
     }
-    $('.original').bind("tap",tap_handler);  
-    generate(1,3); 
+    $('.original').on("tap",tap_handler);  
+    generate(1,buttons.entity.length/2); 
     showKey(1);
 });
