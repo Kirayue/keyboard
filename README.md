@@ -1,4 +1,4 @@
 ##Setup
-> npm start 
+> npm i 
 #bundle.js
 > webpack
