@@ -91,5 +91,4 @@ $(document).ready(function(){
     generate(1,buttons.entity.length/2);  //產生紅色按鈕
     showKey(1);  
 });
-
-//接下來使用results 的按鍵座標資料算出陳老師要的值,希望星期四討論可以都弄出來(資結課還有一個作業星期五要交)
+// vi:et:sw=2:tx=2
