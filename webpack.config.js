@@ -12,11 +12,6 @@ module.exports = {
 			 {test:/\.(png|jpg)$/,loader:'url-loader?limit=8192'}
 		]
 	},
-/*	plugins:[
-	  new webpack.ProvidePlugin({
-	      $:'jquery',
-		  jQuery:'jquery',
-		  "window.jQuery":'jquery'
-	  })
-	]*/
 };
+
+// vi:et:sw=2:ts=2

@@ -91,4 +91,5 @@ $(document).ready(function(){
     generate(1,buttons.entity.length/2);  //產生紅色按鈕
     showKey(1);  
 });
+
 // vi:et:sw=2:ts=2
