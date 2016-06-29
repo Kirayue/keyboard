@@ -1,16 +1,23 @@
 var webpack = require('webpack');
 
 module.exports = {
-    entry:'./index.js',
-	output:{
-	      filename:'bundle.js'
+  devServer: {
+    contentBase: 'dist',
+    host: '0.0.0.0',
+    inline: true,
+    stats: {chunkModules: false, colors: true},
+  },
+  entry:'./index.js',
+	output: {
+	  filename: 'app.js',
+    path: 'dist',
 	},
-	module:{
-	    loaders:[
-		     {test:/\.css/,loader:'style-loader!css-loader'},
-			 {test:/\.js/,exclude:/node_modules/,loader:'babel-loader'},
-			 {test:/\.(png|jpg)$/,loader:'url-loader?limit=8192'}
-		]
+	module: {
+    loaders: [
+      {test: /\.css$/, loader: 'style!css'},
+			{test: /\.(jpg|png)$/, loader:'url?limit=8192'},
+			{test: /\.js$/, exclude: /node_modules/, loader: 'babel'},
+		],
 	},
 };
 
