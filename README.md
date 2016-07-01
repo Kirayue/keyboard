@@ -1,6 +1,6 @@
-##Setup
+#dev
 > npm i 
-#bundle.js
-> webpack
+> echo port > port
+> npm start
 
 # vi:et:sw=2:ts=2
