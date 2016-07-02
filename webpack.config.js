@@ -22,10 +22,7 @@ module.exports = {
 		],
 	},
   plugins: [
-  new HtmlWebpackPlugin({
-     title:'keyboard',
-     template:'./app/index.html'
-  })
+    new HtmlWebpackPlugin({ template: './app/index.html' }),
   ]
 };
 
