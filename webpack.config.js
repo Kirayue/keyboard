@@ -1,5 +1,6 @@
 var webpack = require('webpack');
 var HtmlWebpackPlugin = require('html-webpack-plugin');
+
 module.exports = {
   devServer: {
     contentBase: 'dist',
@@ -14,10 +15,10 @@ module.exports = {
 	},
 	module: {
     loaders: [
-      {test: /\.css$/, loader: 'style!css'},
-      {test: /\.sass$/, loader: 'style!css!sass'},
-			{test: /\.(jpg|png)$/, loader:'url?limit=8192'},
-			{test: /\.js$/, exclude: /node_modules/, loader: 'babel'},
+      { test: /\.css$/, loader: 'style!css' },
+			{ test: /\.(jpg|png)$/, loader: 'url?limit=8192' },
+			{ test: /\.js$/, exclude: /node_modules/, loader: 'babel' },
+      { test: /\.sass$/, loader: 'style!css!sass' },
 		],
 	},
   plugins: [
