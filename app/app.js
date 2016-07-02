@@ -1,4 +1,4 @@
-require("./index.sass");
+require("./app.sass");
 let buttons = {   //bottons object
   num_r: 0,   //number of red buttons
   num_b: 0,   //number of blue buttons

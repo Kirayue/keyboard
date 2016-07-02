@@ -7,7 +7,7 @@ module.exports = {
     inline: true,
     stats: {chunkModules: false, colors: true},
   },
-  entry:'./index.js',
+  entry:'./app/app.js',
 	output: {
 	  filename: 'app.js',
     path: 'dist',
@@ -23,7 +23,7 @@ module.exports = {
   plugins: [
   new HtmlWebpackPlugin({
      title:'keyboard',
-     template:'./index.html'
+     template:'./app/index.html'
   })
   ]
 };
