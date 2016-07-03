@@ -19,10 +19,11 @@ module.exports = {
 			{ test: /\.(jpg|png)$/, loader: 'url?limit=8192' },
 			{ test: /\.js$/, exclude: /node_modules/, loader: 'babel' },
       { test: /\.sass$/, loader: 'style!css!sass' },
+      { test: /\.pug$/, loader:'pug-html-loader'}
 		],
 	},
   plugins: [
-    new HtmlWebpackPlugin({ template: './app/index.html' }),
+    new HtmlWebpackPlugin({ template: './app/index.pug' }),
   ]
 };
 
