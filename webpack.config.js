@@ -17,7 +17,7 @@ module.exports = {
     loaders: [
       { test: /\.css$/, loader: 'style!css' },
 			{ test: /\.(jpg|png)$/, loader: 'url?limit=8192' },
-			{ test: /\.js$/, exclude: /node_modules/, loader: 'babel' },
+			{ test: /\.js$/, exclude: /node_modules/, loader: 'babel',query:{presets:['es2015']} },
       { test: /\.sass$/, loader: 'style!css!sass' },
       { test: /\.pug$/, loader:'pug-html-loader'}
 		],
