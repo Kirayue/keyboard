@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start": "node_modules/.bin/webpack-dev-server --port $(/bin/cat port)"
+    "start": "node_modules/.bin/webpack-dev-server --port $(/bin/cat port || echo 8080)"
   },
   "repository": {
     "type": "git",
