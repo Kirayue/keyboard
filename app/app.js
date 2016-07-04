@@ -1,6 +1,6 @@
 import './app.sass'
 let opt = {   //控制產生案件數量
-   keyPerRound:3,
+   keyPerRound:4,
    keyList:['a','b','c','d','e','f','g','h','i','j','k','l','m','n','o','p','q','r','s','t','u','v','w','x','y','z'] 
 };
 let buttons = {   //bottons object
@@ -13,7 +13,7 @@ function generate(color){   //產生按鍵的ASCII CODE
     let randomNum = Math.floor((Math.random() * opt.keyList.length));
     let temp = {};
     temp.key = opt.keyList[randomNum];
-    temp.text = buttons.entity.length%3 +1;
+    temp.text = buttons.entity.length%opt.keyPerRound +1;
     temp.color = color;
     buttons.entity.push(temp);
     opt.keyList.splice(randomNum,1);
@@ -21,7 +21,7 @@ function generate(color){   //產生按鍵的ASCII CODE
 }
 $(document).ready(function(){
   let showKey = ()=>{   //將被選到的buttons 加上style
-      for(let i=buttons.entity.length-3;i<buttons.entity.length;i++)
+      for(let i=buttons.entity.length-opt.keyPerRound;i<buttons.entity.length;i++)
         $("#"+buttons.entity[i].key).removeClass( "original" ).addClass(buttons.entity[i].color).text(buttons.entity[i].text);
   }
   let tap_handler = (event)=>{  //tap callback
