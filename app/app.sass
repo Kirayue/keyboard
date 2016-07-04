@@ -1,3 +1,6 @@
+$keyboard-width: 100vw
+$key-height: 95 / 681 * $keyboard-width
+
 $btn_w: (5800vw/681)
 $btn_h: (9500vw/681)
 $interval: (10100vw/681/11)
@@ -7,35 +10,35 @@ $third_offset: (100vw -$btn_w*7 -$interval*6)/2
 $second_top: 2*$first-top+$btn_h
 $third_top: 3*$first_top+2*$btn_h
 $forth_top: 4*$first_top+3*$btn_h
+
 body 
   margin: 0
   height: 100vh
   width: 100vw
 
 #keyboard
-   background-image: url(./res/keyboard.png)
-   width: 100vw
-   height: (41400vw/681)
-   position: absolute
+   background-image: url(res/keyboard.png)
    bottom: 0
+   height: 414 / 681 * $keyboard_width
+   line-height: $btn_h
+   position: absolute
+   width: $keyboard_width
 
-.original
-   background-image: url(./res/button.png)
-
-.red
-   background-color: #880000
-
-.blue
-   background-color: #003377
+.key
+   background: url(res/button.png)
+   color: white
+   font-size: 7vw
+   line-height: $key-height
+   height: $key-height
+   text-align: center
+   width: 58 / 681 * $keyboard-width
+   &.red
+     background: #880000
+   &.blue
+     background: #003377
 
 .btn
-   line-height: $btn_h
-   width: $btn_w
-   height: $btn_h
    position: absolute
-   text-align: center
-   font-size: 7vw
-   color: white
 =key_position($row,$num)
    @if $row ==1
       top: $first_top
@@ -133,4 +136,4 @@ body
    position: absolute
    +key_position(4,1)
 
-/*vi:et:sw=2:ts=2*/
+// vi:et:sw=2:ts=2

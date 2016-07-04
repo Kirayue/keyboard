@@ -1,13 +1,19 @@
 html
- head
-   meta(charset='UTF-8')
-   meta(name="viewport" content="width=device-width, initial-scale=1.0,user-scalable=no")
-   title Keyboard
-   link(rel="stylesheet" href="http://code.jquery.com/mobile/1.4.5/jquery.mobile-1.4.5.min.css")
-   script(src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.4/jquery.min.js")
-   script(src="http://code.jquery.com/mobile/1.4.5/jquery.mobile-1.4.5.min.js")
- body
-  -var keyList=['q','w','e','r','t','y','u','i','o','p','a','s','d','f','g','h','j','k','l','z','x','c','v','b','n','m','space'];
-   div#keyboard
-    each key in keyList
-     div.original(id = key)
+  head
+    meta(charset='utf-8')
+    meta(content='width=device-width,initial-scale=1.0,user-scalable=no' name='viewport')
+    title Keyboard
+    link(rel="stylesheet" href="http://code.jquery.com/mobile/1.4.5/jquery.mobile-1.4.5.min.css")
+    script(src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.4/jquery.min.js")
+    script(src="http://code.jquery.com/mobile/1.4.5/jquery.mobile-1.4.5.min.js")
+  body
+    div#keyboard
+      each key in ['q','w','e','r','t','y','u','i','o','p']
+        div.key(id=key)
+      each key in ['a','s','d','f','g','h','j','k','l']
+        div.key(id=key)
+      each key in ['z','x','c','v','b','n','m']
+        div.key(id=key)
+      each key in ['space']
+        div.key(id=key)
+//- vi:et:nowrap
