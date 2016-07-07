@@ -8,12 +8,16 @@ html
     script(src="http://code.jquery.com/mobile/1.4.5/jquery.mobile-1.4.5.min.js")
   body
     div#keyboard
+     div.row
       each key in ['q','w','e','r','t','y','u','i','o','p']
-        div.key(id=key)
+        div.key(id=key) 
+     div.row 
       each key in ['a','s','d','f','g','h','j','k','l']
         div.key(id=key)
+     div.row 
       each key in ['z','x','c','v','b','n','m']
-        div.key(id=key)
+        div.key(id=key) 
+     div.row 
       each key in ['space']
         div.key(id=key)
 //- vi:et:nowrap

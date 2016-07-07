@@ -1,6 +1,6 @@
 import './app.sass'
 let opt = {   //控制產生案件數量
-   keyPerRound:4,
+   keyPerRound:3,
    keyList:['a','b','c','d','e','f','g','h','i','j','k','l','m','n','o','p','q','r','s','t','u','v','w','x','y','z'] 
 };
 let buttons = {   //bottons object
@@ -22,10 +22,10 @@ function generate(color){   //產生按鍵的ASCII CODE
 $(document).ready(function(){
   let showKey = ()=>{   //將被選到的buttons 加上style
       for(let i=buttons.entity.length-opt.keyPerRound;i<buttons.entity.length;i++)
-        $("#"+buttons.entity[i].key).removeClass( "original" ).addClass(buttons.entity[i].color).text(buttons.entity[i].text);
+        $("#"+buttons.entity[i].key).addClass(buttons.entity[i].color).text(buttons.entity[i].text);
   }
   let tap_handler = (event)=>{  //tap callback
-    $('#'+buttons.entity[buttons.now].key).removeClass( buttons.entity[buttons.now].color ).addClass( "original" ).text(""); //移除再buttons.entity[now]的style
+    $('#'+buttons.entity[buttons.now].key).removeClass( buttons.entity[buttons.now].color ).text(""); //移除再buttons.entity[now]的style
     opt.keyList.push(buttons.entity[buttons.now].key);
     if(buttons.now == buttons.entity.length-2){
       if(buttons.entity[buttons.now].color=='red'){
@@ -44,7 +44,7 @@ $(document).ready(function(){
     temp.Y = event.pageY;
     results.push(temp);
   }
-  $('.original').on("tap",tap_handler);  //將所有按鍵綁上 tap event
+  $('.key').on("tap",tap_handler);  //將所有按鍵綁上 tap event
   generate('red');  //產生紅色按鈕
   showKey();  
 });
