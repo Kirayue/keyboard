@@ -1,4 +1,5 @@
 import './app.sass'
+let d = new Date();
 let opt = {   //控制產生案件數量
    keyPerRound:3,
    keyList:['a','b','c','d','e','f','g','h','i','j','k','l','m','n','o','p','q','r','s','t','u','v','w','x','y','z'] 
@@ -40,10 +41,11 @@ $(document).ready(function(){
     buttons.now++;
     let temp={};
     temp.key = $(event.target).attr('id'); //將tap的key值 跟 X Y 座標 存到temp object 並 push 到 results
-    temp.X = event.pageX;
-    temp.Y = event.pageY;
+    temp.touchX = event.pageX;
+    temp.touchY = event.pageY;
     results.push(temp);
   }
+  //$('#stop').on('tap',sendData);
   $('.key').on("tap",tap_handler);  //將所有按鍵綁上 tap event
   generate('red');  //產生紅色按鈕
   showKey();  
