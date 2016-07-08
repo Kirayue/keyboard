@@ -12,24 +12,25 @@ let opt = {
 $(document).ready(function(){
   function nextRound(color) {
     for (let i=0; i<opt.nKeyPerRound; i++) {
-      let iKey = Math.floor((Math.random() * app.keyPool.length)), key
-      app.targetKeys.push(key = { //! let key
+      let iKey = Math.floor((Math.random() * app.keyPool.length))
+      let key = {
         color: color,
         id: app.keyPool.splice(iKey, 1)[0],
         text: i + 1,
-      })
+      }
+      app.targetKeys.push(key)
       $("#"+key.id).addClass(key.color).text(key.text);
     } 
   }
 
-  $('.key').on('tap', event => { //! don't need on
+  $('.key').tap(event => {
     let key = app.targetKeys.shift()
     $('#'+key.id).removeClass(key.color).text('') // restore key
     app.keyPool.push(key.id) // push key back to pool
     app.history.push({
       target: key,
       user: {
-        id: $(event.target).attr('id'),
+        id: event.target.getAttribute('id'),
         x: event.pageX,
         y: event.pageY,
       },
