@@ -1,54 +1,44 @@
 import './app.sass'
-let d = new Date();
-let opt = {   //控制產生案件數量
-   keyPerRound:3,
-   keyList:['a','b','c','d','e','f','g','h','i','j','k','l','m','n','o','p','q','r','s','t','u','v','w','x','y','z'] 
-};
-let buttons = {   //bottons object
-  now: 0,     // index of button that will be killed
-  entity: [] //buttons array
-};
-let results =[];     //結果
-function generate(color){   //產生按鍵的ASCII CODE
-  for(let i=0;i<opt.keyPerRound;i++){
-    let randomNum = Math.floor((Math.random() * opt.keyList.length));
-    let temp = {};
-    temp.key = opt.keyList[randomNum];
-    temp.text = buttons.entity.length%opt.keyPerRound +1;
-    temp.color = color;
-    buttons.entity.push(temp);
-    opt.keyList.splice(randomNum,1);
-  } 
+
+let app = {
+  history: [],
+  keyPool: 'abcdefghijklmnopqrstuvwxyz'.split(''),
+  targetKeys: [],
 }
+let opt = {
+  nKeyPerRound: 3,
+}
+
 $(document).ready(function(){
-  let showKey = ()=>{   //將被選到的buttons 加上style
-      for(let i=buttons.entity.length-opt.keyPerRound;i<buttons.entity.length;i++)
-        $("#"+buttons.entity[i].key).addClass(buttons.entity[i].color).text(buttons.entity[i].text);
+  function nextRound(color) {
+    for (let i=0; i<opt.nKeyPerRound; i++) {
+      let iKey = Math.floor((Math.random() * app.keyPool.length)), key
+      app.targetKeys.push(key = { //! let key
+        color: color,
+        id: app.keyPool.splice(iKey, 1)[0],
+        text: i + 1,
+      })
+      $("#"+key.id).addClass(key.color).text(key.text);
+    } 
   }
-  let tap_handler = (event)=>{  //tap callback
-    $('#'+buttons.entity[buttons.now].key).removeClass( buttons.entity[buttons.now].color ).text(""); //移除再buttons.entity[now]的style
-    opt.keyList.push(buttons.entity[buttons.now].key);
-    if(buttons.now == buttons.entity.length-2){
-      if(buttons.entity[buttons.now].color=='red'){
-          generate('blue'); 
-          showKey();
-      }
-      else{
-          generate('red'); 
-          showKey();
-      }
-    }
-    buttons.now++;
-    let temp={};
-    temp.key = $(event.target).attr('id'); //將tap的key值 跟 X Y 座標 存到temp object 並 push 到 results
-    temp.touchX = event.pageX;
-    temp.touchY = event.pageY;
-    results.push(temp);
-  }
-  //$('#stop').on('tap',sendData);
-  $('.key').on("tap",tap_handler);  //將所有按鍵綁上 tap event
-  generate('red');  //產生紅色按鈕
-  showKey();  
+
+  $('.key').on('tap', event => { //! don't need on
+    let key = app.targetKeys.shift()
+    $('#'+key.id).removeClass(key.color).text('') // restore key
+    app.keyPool.push(key.id) // push key back to pool
+    app.history.push({
+      target: key,
+      user: {
+        id: $(event.target).attr('id'),
+        x: event.pageX,
+        y: event.pageY,
+      },
+    })
+    if (app.targetKeys.length < 2)
+      nextRound(key.color === 'red' ? 'blue' : 'red')
+  })
+
+  nextRound('red') // first round
 });
 
 // vi:et:sw=2:ts=2
