@@ -1,17 +1,25 @@
 @import '../node_modules/normalize-scss/sass/normalize'
 @include normalize()
+
 $keyboard-width: 100vw
+
+// see res/size.png
 $keyboard-height: 3.5 / 5.8 * $keyboard-width
 $key-height: 0.75 / 5.8 * $keyboard-width
 $key-width: 0.48 / 5.8 * $keyboard-width
-$horizontal-gap: (100vw - $key-width*10)/11 
+$horizontal-gap: ($keyboard-width - $key-width * 10) / 11 
 $vertical-gap: ($keyboard-height - $key-height * 4) / 5
+
+[data-role=page]
+  box-sizing: border-box
+  padding: 0 .5em
 
 #keyboard
   background-image: url(res/keyboard.png)
-  position: absolute
   bottom: 0
   height: $keyboard-height
+  left: 0
+  position: absolute
   width: $keyboard-width
   .row
     margin-top: $vertical-gap
