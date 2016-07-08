@@ -1,13 +1,9 @@
 $keyboard-width: 100vw
-$keyboard-height: 3.5/5.8 *$keyboard-width
-$key-height: 0.75 / 5.8 *$keyboard-width
-$key-width: 0.48 / 5.8 *$keyboard-width
+$keyboard-height: 3.5 / 5.8 * $keyboard-width
+$key-height: 0.75 / 5.8 * $keyboard-width
+$key-width: 0.48 / 5.8 * $keyboard-width
 $horizontal-gap: (100vw - $key-width*10)/11 
-$vertical-gap: ($keyboard-height - $key-height*4)/5
-body 
-  margin: 0
-  height: 100vh
-  width: 100vw
+$vertical-gap: ($keyboard-height - $key-height * 4) / 5
 
 #keyboard
   background-image: url(res/keyboard.png)
@@ -15,26 +11,26 @@ body
   bottom: 0
   height: $keyboard-height
   width: $keyboard-width
-.row
-  text-align: center
-  margin-top: $vertical-gap
-.key
-  vertical-align: top
-  background: url(res/button.png)
-  color: white
-  font-size: 7vw
-  line-height: $key-height
-  width: $key-width
-  height: $key-height
-  text-align: center
-  display: inline-block
-  &.red
-    background: #880000
-  &.blue
-    background: #003377
-.row .key+.key
-  margin-left: $horizontal-gap
-#space
-  width: $key-width*4 + $horizontal-gap*3
-  margin-left: $key-width + $horizontal-gap
+  .row
+    margin-top: $vertical-gap
+    text-align: center
+    .key
+      background: url(res/button.png)
+      color: white
+      display: inline-block
+      font-size: 7vw
+      line-height: $key-height
+      height: $key-height
+      vertical-align: top
+      width: $key-width
+      &.red
+        background: #880000
+      &.blue
+        background: #003377
+    .key+.key
+      margin-left: $horizontal-gap
+  #space
+    margin-left: $key-width + $horizontal-gap
+    width: 4 * $key-width + 3 * $horizontal-gap
+
 // vi:et:sw=2:ts=2
