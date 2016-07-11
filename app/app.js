@@ -2,6 +2,7 @@ import './app.sass'
 
 let app = {
   history: [],
+  keyOffset: {},
   keyPool: 'abcdefghijklmnopqrstuvwxyz'.split(''),
   opt: { nKeyPerRound: 3 },
   targetKeys: [],
@@ -9,13 +10,22 @@ let app = {
 
 function calculateStat(app) { //! move to server
   let history = app.history
-  let first = history.shift()
+  let last = history.shift()
   let stat = {
+    clicks: [],
     nCorrect: 0,
     nKey: history.length,
   }
-  for (let i of history) {
-    if (i.user.id === i.target.id) stat.nCorrect++
+  for (let cur of history) {
+    if (cur.user.id === cur.target.id) stat.nCorrect++
+    let click = [], i = 0
+    click[i++] = cur.timestamp - last.timestamp // duration
+    click[i++] = cur.user.x - last.user.x // x displacement
+    click[i++] = cur.user.y - last.user.y // y displacement
+    click[i++] = Math.abs(click[i - 3]) // abs x displacement
+    click[i++] = Math.abs(click[i - 3]) // abs y displacement
+    stat.clicks.push(click)
+    last = cur
   }
   stat.accuracy = stat.nCorrect / stat.nKey
   //! list required statistics here
@@ -39,9 +49,9 @@ $(document).ready(function(){
 
   $('#stop').click(() => {
     //! send app to server via ajax instead of calling calculateStat()
-    $.post('/sendData',app,()=>{
-       console.log('Saved!')
-    })
+    //$.post('/sendData',app,()=>{
+    //   console.log('Saved!')
+    //})
     calculateStat(app)
   })
 
@@ -61,6 +71,11 @@ $(document).ready(function(){
     if (app.targetKeys.length < 2)
       nextRound(key.color === 'red' ? 'blue' : 'red')
   })
+
+  for (let i of app.keyPool)
+    app.keyOffset[i] = $('#'+i).offset()
+  let $key = $('#'+app.keyPool[0])
+  app.keySize = { height: $key.height(), width: $key.width() }
 
   nextRound('red') // first round
 });
