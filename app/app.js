@@ -39,6 +39,9 @@ $(document).ready(function(){
 
   $('#stop').click(() => {
     //! send app to server via ajax instead of calling calculateStat()
+    $.post('/sendData',app,()=>{
+       console.log('Saved!')
+    })
     calculateStat(app)
   })
 
