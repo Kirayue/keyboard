@@ -1,19 +1,16 @@
 import gulp from 'gulp'
-
-/*gulp.task('server', function(){
-  var express, expressServer;
-  express = require('express');
-  expressServer = express();
-  expressServer.get('/do', function(req, res){
-    Do(req._parsedUrl.query, res);
-  });
-  expressServer.use(express['static'](paths.dest));
-  expressServer.listen(opt.port);
-  gulpUtil.log("Listening on port: " + opt.port);
-});*/
-gulp.task('other',()=>{
-    console.log('Second!!');
-});
+import babel from 'gulp-babel'
+import rename from 'gulp-rename'
+import {Server} from './es6/server-es6.js'
+gulp.task("compile",['server'] , () => {
+  return gulp.src("es6/do-es6.js")
+      .pipe(babel())
+	  .pipe(rename('do.js'))
+	  .pipe(gulp.dest("dist"))
+})
+gulp.task('server', function(){
+    Server()
+})
 gulp.task('default',()=>{
-    console.log('HAHAHA');
-});
+    console.log('HAHAHA')
+})

@@ -18,12 +18,15 @@ function calculateStat(app) { //! move to server
   }
   for (let cur of history) {
     if (cur.user.id === cur.target.id) stat.nCorrect++
-    let click = [], i = 0
+    let click = [], i = 0 
+    click[i++] = cur.target.id //target.id
+    click[i++] = cur.user.id //user.id
     click[i++] = cur.timestamp - last.timestamp // duration
     click[i++] = cur.user.x - last.user.x // x displacement
     click[i++] = cur.user.y - last.user.y // y displacement
     click[i++] = Math.abs(click[i - 3]) // abs x displacement
     click[i++] = Math.abs(click[i - 3]) // abs y displacement
+    click[i++] = Math.pow((Math.pow(click[i-3],2)+Math.pow(click[i-3],2)),1/2)  
     stat.clicks.push(click)
     last = cur
   }
@@ -49,9 +52,9 @@ $(document).ready(function(){
 
   $('#stop').click(() => {
     //! send app to server via ajax instead of calling calculateStat()
-    //$.post('/sendData',app,()=>{
-    //   console.log('Saved!')
-    //})
+    $.post('/sendData',app,()=>{
+       console.log('Saved!')
+    })
     calculateStat(app)
   })
 
