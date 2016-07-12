@@ -4,8 +4,8 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "dev": "node_modules/.bin/webpack-dev-server --port $(/bin/cat port || /bin/echo 8080)",
-	"build": "node_modules/.bin/webpack --watch",
+    "build": "./node_modules/.bin/webpack --watch",
+    "dev": "./node_modules/.bin/webpack-dev-server --port $(/bin/cat port || /bin/echo 8080)",
     "start": "node_modules/.bin/gulp"
   },
   "repository": {
