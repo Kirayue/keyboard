@@ -15,7 +15,7 @@ export function Server(){
      res.sendFile(path.join(__dirname+'./dist/index.html'))
   })
 
-  server.post('/sendData',(req,res)=>{
+  server.get('/do',(req,res)=>{
      //console.log(req.body)
      console.log(Do(req.body,res));
   })

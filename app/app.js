@@ -19,6 +19,7 @@ function calculateStat(app) { //! move to server
   for (let cur of history) {
     if (cur.user.id === cur.target.id) stat.nCorrect++
     let click = [], i = 0 
+    let keyCenter = {x: app.keyOffset[cur.target.id].top + app.keySize.height/2, y:app.keyOffset[cur.target.id].left + app.keySize.width/2 }
     click[i++] = cur.target.id //target.id
     click[i++] = cur.user.id //user.id
     click[i++] = cur.timestamp - last.timestamp // duration
@@ -26,7 +27,13 @@ function calculateStat(app) { //! move to server
     click[i++] = cur.user.y - last.user.y // y displacement
     click[i++] = Math.abs(click[i - 3]) // abs x displacement
     click[i++] = Math.abs(click[i - 3]) // abs y displacement
-    click[i++] = Math.pow((Math.pow(click[i-3],2)+Math.pow(click[i-3],2)),1/2)  
+    click[i++] = Math.pow((Math.pow(click[i-3],2)+Math.pow(click[i-3],2)),1/2)
+    click[i++] = cur.user.x - keyCenter.x //x displacement relates to keyCenter 
+    click[i++] = cur.user.y - keyCenter.y //y displacement relates to keyCenter
+    click[i++] = Math.abs(click[i - 3])  //abs x displacement relates to keyCenter
+    click[i++] = Math.abs(click[i - 3])  //abs y displacement relates to keyCenter
+
+
     stat.clicks.push(click)
     last = cur
   }
@@ -52,7 +59,7 @@ $(document).ready(function(){
 
   $('#stop').click(() => {
     //! send app to server via ajax instead of calling calculateStat()
-    $.post('/sendData',app,()=>{
+    $.get('do',app,()=>{
        console.log('Saved!')
     })
     calculateStat(app)

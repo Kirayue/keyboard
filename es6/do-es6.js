@@ -36,10 +36,8 @@ let calculateStat = (app) => { //! move to server
   return stat
 }
 
-let Do = (query,res)=>{
-    console.log('Song!')
-	return calculateStat(query,res)
-}
+let Do = (query,res)=> calculateStat(query,res)
+
 
 export {Do}
 
