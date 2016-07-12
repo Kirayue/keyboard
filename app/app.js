@@ -59,7 +59,7 @@ $(document).ready(function(){
 
   $('#stop').click(() => {
     //! send app to server via ajax instead of calling calculateStat()
-    $.get('do',app,()=>{
+    $.get('do',{app:JSON.stringify(app)},()=>{
        console.log('Saved!')
     })
     calculateStat(app)

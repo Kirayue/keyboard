@@ -5,8 +5,8 @@
   "main": "index.js",
   "scripts": {
     "dev": "node_modules/.bin/webpack-dev-server --port $(/bin/cat port || /bin/echo 8080)",
-	"start": "node_modules/.bin/webpack --watch",
-    "server": "node_modules/.bin/gulp compile"
+	"build": "node_modules/.bin/webpack --watch",
+    "start": "node_modules/.bin/gulp"
   },
   "repository": {
     "type": "git",

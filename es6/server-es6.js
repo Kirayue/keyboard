@@ -10,15 +10,15 @@ export function Server(){
   server.use(bodyParser.urlencoded({
      extended:true
   }))
-  server.use(express.static('./dist'))
   server.get('/',(req,res)=>{
-     res.sendFile(path.join(__dirname+'./dist/index.html'))
+     res.sendFile(path.join(__dirname+'/../dist/index.html'))
   })
 
   server.get('/do',(req,res)=>{
      //console.log(req.body)
-     console.log(Do(req.body,res));
+    Do(req._parsedUrl.query,res);
   })
+  server.use(express.static('./dist'))
   server.listen(8888,()=>{
       console.log('Port:8888 ')
   })

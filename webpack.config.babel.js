@@ -1,7 +1,7 @@
-var webpack = require('webpack');
-var HtmlWebpackPlugin = require('html-webpack-plugin');
-var ExtractTextPlugin = require("extract-text-webpack-plugin");
-module.exports = {
+import webpack from 'webpack'
+import HtmlWebpackPlugin from 'html-webpack-plugin'
+import ExtractTextPlugin from "extract-text-webpack-plugin"
+export default {
   devServer: {
     contentBase: 'dist',
     host: '0.0.0.0',

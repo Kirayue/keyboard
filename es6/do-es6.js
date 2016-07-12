@@ -1,14 +1,5 @@
+import querystring from 'querystring'
 //console.log(process); 
-if ('node'  === process.title){
-    console.log('fuck');  //from node
-}
-else{
-   if('gulp' === process.title){
-   } 
-   else if(process.env.HTTP_HOST != null){
-	 Do(process.env.QUERT_STRING, console);
-   }
-}
 let calculateStat = (app) => { //! move to server
   let history = app.history
   let last = history.shift()
@@ -36,8 +27,28 @@ let calculateStat = (app) => { //! move to server
   return stat
 }
 
-let Do = (query,res)=> calculateStat(query,res)
+let Do = (query,res)=> {
+  let app
+  if(typeof query == 'string'){
+    app = JSON.parse(querystring.parse(query).app)
+  }
+  else if(typeof query == 'object'){
+    app = JSON.parse(query.app)
+  }
+  calculateStat(app,res)
+}
 
+if ('node'  === process.title){
+    console.log('fuck');  //from node
+}
+else{
+   if('gulp' === process.title){
+   } 
+   else if(process.env.HTTP_HOST != null){
+     console.log('Content-type: text/plain\n');
+	   Do(process.env.QUERY_STRING, console);
+   }
+}
 
 export {Do}
 
