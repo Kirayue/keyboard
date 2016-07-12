@@ -2,7 +2,7 @@ import './app.sass'
 
 let app = {
   history: [],
-  keyOffset: {},
+  keyAttr: {},
   keyPool: 'abcdefghijklmnopqrstuvwxyz'.split(''),
   opt: { nKeyPerRound: 3 },
   targetKeys: [],
@@ -17,9 +17,18 @@ function calculateStat(app) { //! move to server
     nKey: history.length,
   }
   for (let cur of history) {
-    if (cur.user.id === cur.target.id) stat.nCorrect++
+    let {id,x,y}  = cur.user
+    console.log(' id: '+id+' x: '+x+' y: '+y)
+    if (cur.user.id === cur.target.id){
+      stat.nCorrect++
+      app.keyAttr[id].shiftedKey.x += x
+      app.keyAttr[id].shiftedKey.y += y
+      app.keyAttr[id].numOfTaps++
+    }
     let click = [], i = 0 
-    let keyCenter = {x: app.keyOffset[cur.target.id].top + app.keySize.height/2, y:app.keyOffset[cur.target.id].left + app.keySize.width/2 }
+    let keyCenter = {x: app.keyAttr[cur.target.id].keyOffset.top + app.keySize.height/2, y:app.keyAttr[cur.target.id].keyOffset.left + app.keySize.width/2 }
+
+
     click[i++] = cur.target.id //target.id
     click[i++] = cur.user.id //user.id
     click[i++] = cur.timestamp - last.timestamp // duration
@@ -37,6 +46,7 @@ function calculateStat(app) { //! move to server
     stat.clicks.push(click)
     last = cur
   }
+
   stat.accuracy = stat.nCorrect / stat.nKey
   //! list required statistics here
   console.log(stat)
@@ -82,8 +92,14 @@ $(document).ready(function(){
       nextRound(key.color === 'red' ? 'blue' : 'red')
   })
 
-  for (let i of app.keyPool)
-    app.keyOffset[i] = $('#'+i).offset()
+  for (let i of app.keyPool){
+    app.keyAttr[i]= { keyOffset : $('#'+i).offset(),
+                      shiftedKey : { x:0,
+                                     y:0
+                                   },
+                      numOfTaps :  0
+                    }
+   }
   let $key = $('#'+app.keyPool[0])
   app.keySize = { height: $key.height(), width: $key.width() }
 
