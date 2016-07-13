@@ -1,4 +1,5 @@
 import querystring from 'querystring'
+import csv from 'csv-stringify'
 import fs from 'fs'
 //console.log(process); 
 let calculateStat = (app) => { //! move to server
@@ -31,6 +32,8 @@ let calculateStat = (app) => { //! move to server
     click[i++] = cur.target.id //target.id
     click[i++] = cur.user.id //user.id
     click[i++] = cur.timestamp - last.timestamp // duration
+    click[i++] = cur.user.x  // x 
+    click[i++] = cur.user.y  // y 
     click[i++] = cur.user.x - last.user.x // x displacement
     click[i++] = cur.user.y - last.user.y // y displacement
     click[i++] = Math.abs(click[i - 3]) // abs x displacement
@@ -65,9 +68,13 @@ let Do = (query,res)=> {
   else if(typeof query == 'object'){
     app = JSON.parse(query.app)
   }
-   fs.writeFile('test.json',JSON.stringify(calculateStat(app,res),null,'\t'),'utf8', (err) => {
-    if (err) throw err
-    console.log('It\'s saved!')
+  let stat = calculateStat(app,res)
+  stat.clicks.unshift(['Target','User','Duration(ms)','X','Y','displacement X','displacement Y','abs X','abs Y','X to keyCenter ','Y to keyCenter','abs X to keyCenter','abs Y to keyCenter','shifted X','shifted Y','X to shiftedKey','Y to shiftedKey','abs X to shiftedKey','abs Y to shiftedKey'])
+  csv(stat.clicks,(err,output)=>{
+     fs.writeFile('./data/test.csv',output,null,'\t'),'utf8', (err) => {
+      if (err) throw err
+      console.log('It\'s saved!')
+     }
   })
 }
 
