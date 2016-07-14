@@ -1,8 +1,8 @@
 import querystring from 'querystring'
 import csv from 'csv-stringify'
 import fs from 'fs'
-//console.log(process); 
-let calculateStat = (app) => { //! move to server
+
+let calculateStat = (app) => {
   let history = app.history
   let last = history.shift()
   let stat = {
@@ -81,15 +81,13 @@ let Do = (query,res)=> {
 }
 
 if ('node'  === process.title){
-    console.log('fuck');  //from node
-}
-else{
-   if('gulp' === process.title){
-   } 
-   else if(process.env.HTTP_HOST != null){
-     console.log('Content-type: text/plain\n');
-	   Do(process.env.QUERY_STRING, console);
-   }
+  console.log('fuck');  //from node
+} else {
+  if('gulp' === process.title){
+  } else if(process.env.HTTP_HOST != null){
+    console.log('Content-type: text/plain\n');
+    Do(process.env.QUERY_STRING, console);
+  }
 }
 
 export {Do}
