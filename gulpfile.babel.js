@@ -22,18 +22,18 @@ gulp.task('server', () => {
   let Do = require('./do')
   let server = express()
   server.get('/',(req,res)=>{
-     res.sendFile(path.join(__dirname+'/dist/index.html'))
+    res.sendFile(path.join(__dirname+'/dist/index.html'))
   })
   server.get('/do',(req,res)=>{
-     //console.log(req.body)
+    // console.log(req.body)
     // console.log(req._parsedUrl.query)
     Do(req.query,res)
     res.end()
   })
   server.use(express.static('./dist'))
-  let port = parseInt(fs.readFileSync('port', {encoding: 'utf-8'}))
-  server.listen(port, () => {
-     console.log('Port: '+port)
+  fs.readFile('port', {encoding: 'utf-8'}, (err, port)=>{
+    port = parseInt(port) || 8888
+    server.listen(port,()=>{console.log(`Port:${port}`)})
   })
 })
 
@@ -43,4 +43,4 @@ gulp.task('watch', () => {
 
 gulp.task('default', ['do','server','watch'])
 
-// vi:et:ts=2
+// vi:et:sw=2:ts=2
