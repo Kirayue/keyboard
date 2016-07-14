@@ -3,9 +3,12 @@ import gulpBabel from 'gulp-babel'
 import gulpChmod from 'gulp-chmod'
 import gulpInsert from 'gulp-insert'
 import gulpRename from 'gulp-rename'
+import gulpUtil from 'gulp-util'
 import express from 'express'
 import path from 'path'
 import fs from 'fs'
+import webpack from 'webpack'
+import webpackConfig from './webpack.config.babel.js'
 
 let dist = 'dist'
 
@@ -16,6 +19,13 @@ gulp.task('do', () => {
 	  .pipe(gulpRename('do'))
 	  .pipe(gulpChmod(755))
 	  .pipe(gulp.dest(dist))
+})
+
+gulp.task('webpack', () => {
+  webpack(webpackConfig, (err, stats) => {
+    if(err) throw new gulpUtil.PluginError("webpack", err)
+    gulpUtil.log("[webpack]", stats.toString({colors: true}))
+  })
 })
 
 gulp.task('server', () => { 
@@ -41,6 +51,6 @@ gulp.task('watch', () => {
   gulp.watch('./es6/*.js',['compile'])
 })
 
-gulp.task('default', ['do','server','watch'])
+gulp.task('default', ['do','webpack','server','watch'])
 
 // vi:et:sw=2:ts=2
