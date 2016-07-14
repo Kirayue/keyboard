@@ -27,8 +27,9 @@ gulp.task('server', ()=>{
     res.end()
   })
   server.use(express.static('./dist'))
-  server.listen(8888,()=>{
-     console.log('Port:8888 ')
+  let port = parseInt(fs.readFileSync('port', {encoding: 'utf-8'}))
+  server.listen(port,()=>{
+     console.log(`Port:${port}`)
   })
 })
 gulp.task('watch',()=>{

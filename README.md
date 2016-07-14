@@ -1,8 +1,8 @@
 #dev
 > npm i 
-> echo port > port
+> echo [your_port_nuber] > port
 > mkdir -p dist/tp6vu6bp4/
-> chmod 777 dist/tp6vu6bp4
+> (if want to run under apache) chmod 777 dist/tp6vu6bp4
 > npm start
 #express server && build do
 > npm start
