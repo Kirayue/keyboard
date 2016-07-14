@@ -90,6 +90,6 @@ if ('node'  === process.title){
   }
 }
 
-export {Do}
+module.exports = Do
 
 // vi:et:sw=2:ts=2
