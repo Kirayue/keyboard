@@ -22,7 +22,8 @@ gulp.task('server', ()=>{
   })
   server.get('/do',(req,res)=>{
      //console.log(req.body)
-    Do(req._parsedUrl.query,res)
+    // console.log(req._parsedUrl.query)
+    Do(req.query,res)
     res.end()
   })
   server.use(express.static('./dist'))

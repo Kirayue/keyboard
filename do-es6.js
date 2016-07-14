@@ -61,17 +61,19 @@ let calculateStat = (app) => { //! move to server
 }
 
 let Do = (query,res)=> {
-  let app
+  let app,path
   if(typeof query == 'string'){
     app = JSON.parse(querystring.parse(query).app)
+    path = './tp6vu6bp4/'
   }
   else if(typeof query == 'object'){
     app = JSON.parse(query.app)
+    path = './dist/tp6vu6bp4/'
   }
   let stat = calculateStat(app,res)
   stat.clicks.unshift(['Target','User','Duration(ms)','X','Y','displacement X','displacement Y','abs X','abs Y','X to keyCenter ','Y to keyCenter','abs X to keyCenter','abs Y to keyCenter','shifted X','shifted Y','X to shiftedKey','Y to shiftedKey','abs X to shiftedKey','abs Y to shiftedKey'])
   csv(stat.clicks,(err,output)=>{
-     fs.writeFile('./data/test.csv',output,null,'\t'),'utf8', (err) => {
+     fs.writeFile(path+app.endTime+'.csv',output,null,'\t'),'utf8', (err) => {
       if (err) throw err
       console.log('It\'s saved!')
      }

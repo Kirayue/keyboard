@@ -1,4 +1,5 @@
 import './app.sass'
+import moment from 'moment/moment.js'
 
 let app = {
   history: [],
@@ -60,7 +61,7 @@ function calculateStat(app) { //! move to server
 
   stat.accuracy = stat.nCorrect / stat.nKey
   //! list required statistics here
-  console.log(stat)
+  console.log(app)
   return stat
 }
 
@@ -80,6 +81,7 @@ $(document).ready(function(){
 
   $('#stop').click(() => {
     //! send app to server via ajax instead of calling calculateStat()
+    app.endTime = moment().format('YYYY-MM-DD_HH:mm:ss') 
     $.get('do',{app:JSON.stringify(app)},()=>{
        console.log('Saved!')
     })

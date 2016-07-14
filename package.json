@@ -34,6 +34,7 @@
     "html-webpack-plugin": "^2.21.0",
     "jquery": "^3.0.0",
     "jquery-mobile": "^1.4.1",
+    "moment": "^2.14.1",
     "node": "0.0.0",
     "node-sass": "^3.8.0",
     "normalize-scss": "^5.0.3",
