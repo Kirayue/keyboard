@@ -1,6 +1,7 @@
-import webpack from 'webpack'
+import ExtractTextPlugin from 'extract-text-webpack-plugin'
 import HtmlWebpackPlugin from 'html-webpack-plugin'
-import ExtractTextPlugin from "extract-text-webpack-plugin"
+import webpack from 'webpack'
+
 export default {
   devServer: {
     contentBase: 'dist',
@@ -9,23 +10,23 @@ export default {
     stats: { chunkModules: false, colors: true },
   },
   entry:'./app/app.js',
-	output: {
-	  filename: 'app.js',
-    path: 'dist',
-	},
-	module: {
+  module: {
     loaders: [
       { test: /\.css$/, loader: 'style!css' },
-			{ test: /\.(jpg|png)$/, loader: 'url?limit=8192' },
-			{ test: /\.js$/, exclude: /node_modules/, loader: 'babel', query: { presets: ['es2015'] } },
+      { test: /\.(jpg|png)$/, loader: 'url?limit=8192' },
+      { test: /\.js$/, exclude: /node_modules/, loader: 'babel', query: { presets: ['es2015'] } },
       { test: /\.sass$/, loader: 'style!css!sass' },
       { test: /\.pug$/, loader:'pug-html-loader'}
-		],
-	},
+    ],
+  },
+  output: {
+    filename: 'app.js',
+    path: 'dist',
+  },
   plugins: [
     new ExtractTextPlugin("[name].css"),
     new HtmlWebpackPlugin({ template: './app/index.pug' }),
   ]
-};
+}
 
-// vi:et:sw=2:ts=2
+// vi:et:ts=2
