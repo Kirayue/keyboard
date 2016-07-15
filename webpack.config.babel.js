@@ -12,10 +12,10 @@ export default {
   entry:'./app/app.js',
   module: {
     loaders: [
-      { test: /\.css$/, loader: 'style!css' },
+      { test: /\.css$/, loader: ExtractTextPlugin.extract('style', 'css') },
       { test: /\.(jpg|png)$/, loader: 'url?limit=8192' },
       { test: /\.js$/, exclude: /node_modules/, loader: 'babel', query: { presets: ['es2015'] } },
-      { test: /\.sass$/, loader: 'style!css!sass' },
+      { test: /\.sass$/, loader: ExtractTextPlugin.extract('style', 'css!sass') },
       { test: /\.pug$/, loader:'pug-html-loader'}
     ],
   },
@@ -24,7 +24,7 @@ export default {
     path: 'dist',
   },
   plugins: [
-    new ExtractTextPlugin("[name].css"),
+    new ExtractTextPlugin("app.css"),
     new HtmlWebpackPlugin({ template: './app/index.pug' }),
   ]
 }
