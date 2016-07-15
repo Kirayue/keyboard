@@ -1,6 +1,8 @@
-import querystring from 'querystring'
-import csv from 'csv-stringify'
+//! space character
+
+import csvStringify from 'csv-stringify'
 import fs from 'fs'
+import querystring from 'querystring'
 
 let calculateStat = (app) => {
   let history = app.history
@@ -55,39 +57,31 @@ let calculateStat = (app) => {
   }
 
   stat.accuracy = stat.nCorrect / stat.nKey
-  //! list required statistics here
-  console.log(stat)
   return stat
 }
 
-let Do = (query,res)=> {
-  let app,path
-  if(typeof query == 'string'){
-    app = JSON.parse(querystring.parse(query).app)
-    path = './tp6vu6bp4/'
+let Do = (query, res) => {
+  let path = './tp6vu6bp4/', trial
+  if ('string' === typeof query)
+    trial = JSON.parse(querystring.parse(query).app)
+  else if ('object' === typeof query) {
+    trial = JSON.parse(query.app)
+    path = './dist/' + path
   }
-  else if(typeof query == 'object'){
-    app = JSON.parse(query.app)
-    path = './dist/tp6vu6bp4/'
-  }
-  let stat = calculateStat(app,res)
+  let stat = calculateStat(app, res)
+  //! this should inside calculateStat, know why?
   stat.clicks.unshift(['Target','User','Duration(ms)','X','Y','displacement X','displacement Y','abs X','abs Y','X to keyCenter ','Y to keyCenter','abs X to keyCenter','abs Y to keyCenter','shifted X','shifted Y','X to shiftedKey','Y to shiftedKey','abs X to shiftedKey','abs Y to shiftedKey'])
-  csv(stat.clicks,(err,output)=>{
-     fs.writeFile(path+app.endTime+'.csv',output,null,'\t'),'utf8', (err) => {
+  csvStringify(stat.clicks, (err, output) => {
+    fs.writeFile(path+app.endTime+'.csv', output, null, '\t'), 'utf8', err => {
       if (err) throw err
-      console.log('It\'s saved!')
-     }
+      console.log('Saved!')
+    }
   })
 }
 
-if ('node'  === process.title){
-  console.log('fuck');  //from node
-} else {
-  if('gulp' === process.title){
-  } else if(process.env.HTTP_HOST != null){
-    console.log('Content-type: text/plain\n');
-    Do(process.env.QUERY_STRING, console);
-  }
+if (process.env.HTTP_HOST) { // from apache
+  console.log("Content-type: text/plain\n")
+  Do(process.env.QUERY_STRING, console)
 }
 
 module.exports = Do
