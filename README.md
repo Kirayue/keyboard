@@ -6,6 +6,6 @@
 > npm start
 # express server && build do && webpack watch
 > npm start
-#build html && css
-> npm build
+#build html && css && js
+> npm run build
 # vi:et:sw=2:ts=2

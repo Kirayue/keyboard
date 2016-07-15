@@ -28,27 +28,32 @@ let calculateStat = (app) => {
      app.keyAttr[key].shiftedKey.y  /= app.keyAttr[key].nTap
   }
   for (let cur of history) {   //loop for statistics
-    let click = [], i = 0 
-    let keyCenter = {x: app.keyAttr[cur.target.id].keyOffset.top + app.keySize.height/2, y:app.keyAttr[cur.target.id].keyOffset.left + app.keySize.width/2 }
-
+    let click = [], i = 0
+    let {id,x,y}  = cur.user
+    let {height,width} = app.keySize
+    let keyCenter = {y: app.keyAttr[cur.target.id].keyOffset.top + height/2, x:app.keyAttr[cur.target.id].keyOffset.left + width/2 }
+    let leftBound = keyCenter.x - 0.75*height , rightBound = keyCenter.x + 0.75*height ,
+         topBound = keyCenter.y - height ,  downBound = keyCenter.y + height
+    click[i++] = x >= leftBound && x <= rightBound && y >= topBound && y <= downBound ? 'count':'not count'    
     click[i++] = cur.target.id //target.id
     click[i++] = cur.user.id //user.id
     click[i++] = cur.timestamp - last.timestamp // duration
-    click[i++] = cur.user.x  // x 
-    click[i++] = cur.user.y  // y 
+    click[i++] = x  // x 
+    click[i++] = y  // y 
     click[i++] = cur.user.x - last.user.x // x displacement
     click[i++] = cur.user.y - last.user.y // y displacement
     click[i++] = Math.abs(click[i - 3]) // abs x displacement
     click[i++] = Math.abs(click[i - 3]) // abs y displacement
     click[i++] = Math.pow((Math.pow(click[i-3],2)+Math.pow(click[i-3],2)),1/2)
-    click[i++] = cur.user.x - keyCenter.x //x displacement relates to keyCenter 
-    click[i++] = cur.user.y - keyCenter.y //y displacement relates to keyCenter
+    click[i++] = click[i - 2]/click[i - 9]
+    click[i++] = x - keyCenter.x //x displacement relates to keyCenter 
+    click[i++] = y - keyCenter.y //y displacement relates to keyCenter
     click[i++] = Math.abs(click[i - 3])  //abs x displacement relates to keyCenter
     click[i++] = Math.abs(click[i - 3])  //abs y displacement relates to keyCenter
     click[i++] = app.keyAttr[cur.user.id].shiftedKey.x // shiftedKey x
     click[i++] = app.keyAttr[cur.user.id].shiftedKey.y // shiftedKey y
-    click[i++] = cur.user.x - app.keyAttr[cur.user.id].shiftedKey.x  //x displacement relates to shiftedKey
-    click[i++] = cur.user.y - app.keyAttr[cur.user.id].shiftedKey.y  //y displacement relates to shiftedKey
+    click[i++] = x - app.keyAttr[cur.user.id].shiftedKey.x  //x displacement relates to shiftedKey
+    click[i++] = y - app.keyAttr[cur.user.id].shiftedKey.y  //y displacement relates to shiftedKey
     click[i++] = Math.abs(click[i - 3]) //abs x displacement relates to shiftedKey
     click[i++] = Math.abs(click[i - 3]) //abs y displacement relates to shiftedKey
 
@@ -68,11 +73,11 @@ let Do = (query, res) => {
     trial = JSON.parse(query.app)
     path = './dist/' + path
   }
-  let stat = calculateStat(app, res)
-  //! this should inside calculateStat, know why?
-  stat.clicks.unshift(['Target','User','Duration(ms)','X','Y','displacement X','displacement Y','abs X','abs Y','X to keyCenter ','Y to keyCenter','abs X to keyCenter','abs Y to keyCenter','shifted X','shifted Y','X to shiftedKey','Y to shiftedKey','abs X to shiftedKey','abs Y to shiftedKey'])
-  csvStringify(stat.clicks, (err, output) => {
-    fs.writeFile(path+app.endTime+'.csv', output, null, '\t'), 'utf8', err => {
+  let stat = calculateStat(app,res)
+  stat.clicks.unshift(['Count','Target','User','Duration(ms)','X','Y','displacement X','displacement Y','abs X','abs Y','distance','velocity(px/ms)','X to keyCenter ','Y to keyCenter','abs X to keyCenter','abs Y to keyCenter','shifted X','shifted Y','X to shiftedKey','Y to shiftedKey','abs X to shiftedKey','abs Y to shiftedKey'])
+  stat.clicks.push([""],["WPM"],[stat.WPM])
+  csv(stat.clicks,(err,output)=>{
+     fs.writeFile(path+app.endTime+'.csv',output,null,'\t'),'utf8', (err) => {
       if (err) throw err
       console.log('Saved!')
     }
