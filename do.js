@@ -8,15 +8,16 @@ let calculateStat = (trial) => {
   let history = trial.history
   let last = history.shift()
   let stat = {
-    timestamp:trial.timestamp,
     clicks: [],
     nCorrect: 0,
     nKey: history.length,
-    mean:{},
-    WPM: (history.length - 1)/(history[history.length-1].timestamp-history[0].timestamp)*1000*60/5     //word per minute
+    mean: {},
+    timestamp: trial.timestamp,
+    //WPM: (history.length - 1) / (history[history.length-1].timestamp-history[0].timestamp)*1000*60/5 // word per minute
+    WPM: history.length / (history[history.length-1].timestamp - last.timestamp) * 1000 * 60, // word per minute
   }
-  for (let i of trial.keyList) {//loop for initial mean
-    stat.mean[i] = { x: 0, y: 0 ,nTap:0}
+  for (let i of trial.keyList) { // loop for initial mean
+    stat.mean[i] = { x: 0, y: 0 , nTap: 0 }
   }
   for (let cur of history) { //loop for add user.x and user.y
     let { id, x, y}  = cur.user
@@ -79,9 +80,10 @@ let Do = (query, res) => {
     trial = JSON.parse(query.trial)
     path = './dist/' + path
   }
-  let stat = calculateStat(trial,res)
-  csvStringify (stat.clicks, (err,output) => {
-     fs.writeFile(path+moment(stat.timestamp).format('YYYY-MM-DD_HH:mm:ss')+'.csv', output, null,'\t'),'utf8', (err) => {
+  let csvName = path + moment(stat.timestamp).format('YYYY-MM-DD_HH:mm:ss') + '.csv'
+  let stat = calculateStat(trial, res)
+  csvStringify(stat.clicks, (err, output) => {
+    fs.writeFile(csvName, output, null, '\t'), 'utf8', (err) => {
       if (err) throw err
       console.log('Saved!')
     }
