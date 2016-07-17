@@ -38,6 +38,7 @@ $(document).ready(function(){
       opt: app.opt,
       timestamp: new Date().getTime()
     }
+    //calculateStat(trial)
     restart()
     nextRound('red') 
     $.get('do', { trial: JSON.stringify(trial) }, () => {
