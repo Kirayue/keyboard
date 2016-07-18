@@ -1,21 +1,14 @@
 import './app.sass'
 
 let app = { //! move history and opt into trial
-  history: [],
+  keyboard: 'abcdefghijklmnopqrstuvwxyz'.split(''),
   keyOffset: {}, //! for what?
-  keyPool: 'abcdefghijklmnopqrstuvwxyz'.split(''),
   opt: { nKeyPerRound: 3 },
   targetKeys: [],
-  keyList: 'abcdefghijklmnopqrstuvwxyz'.split('')
 }
-let restart = () => {
-  app.keyPool =  'abcdefghijklmnopqrstuvwxyz'.split('')
-  app.history = []
-  for (let key of app.targetKeys)
-    $('#'+key.id).removeClass(key.color).text('') //remove key
-  app.targetKeys = []
-}
+
 $(document).ready(function(){
+
   function nextRound(color) {
     for (let i=0; i<app.opt.nKeyPerRound; i++) {
       let iKey = Math.floor((Math.random() * app.keyPool.length))
@@ -29,6 +22,14 @@ $(document).ready(function(){
     } 
   }
   
+  function restart() {
+    app.history = []
+    app.keyPool = app.keyboard.splice(0)
+    for (let key of app.targetKeys)
+      $('#'+key.id).removeClass(key.color).text('')
+    app.targetKeys = []
+  }
+
   $('#stop').click(() => {
     let trial = {
       history: app.history,
@@ -62,6 +63,8 @@ $(document).ready(function(){
     if (app.targetKeys.length < 2)
       nextRound(key.color === 'red' ? 'blue' : 'red')
   })
+
+  restart()
   
   setTimeout(() => { // prevent initial position problem
     for (let i of app.keyPool) 
