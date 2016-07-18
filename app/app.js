@@ -7,6 +7,7 @@ let app = { //! move history and opt into trial
   targetKeys: [],
 }
 
+
 $(document).ready(function(){
 
   function nextRound(color) {
@@ -24,7 +25,7 @@ $(document).ready(function(){
   
   function restart() {
     app.history = []
-    app.keyPool = app.keyboard.splice(0)
+    app.keyPool = Array.from(app.keyboard)
     for (let key of app.targetKeys)
       $('#'+key.id).removeClass(key.color).text('')
     app.targetKeys = []
@@ -33,17 +34,18 @@ $(document).ready(function(){
   $('#stop').click(() => {
     let trial = {
       history: app.history,
-      keyList: app.keyList,
+      keyboard: app.keyboard,
       keySize: app.keySize,
       keyOffset: app.keyOffset,
       opt: app.opt,
       timestamp: new Date().getTime()
     }
-    //calculateStat(trial)
     restart()
+    $('#stop').text('Send')
     nextRound('red') 
-    $.get('do', { trial: JSON.stringify(trial) }, () => {
-       console.log('Saved!')
+    $.post('do', { trial: JSON.stringify(trial) }, () => {
+       console.log('Saved')
+       $('#stop').text('Stop')
     })
   })
 

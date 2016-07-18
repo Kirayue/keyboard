@@ -1,10 +1,14 @@
 import csvStringify from 'csv-stringify'
 import fs from 'fs'
 import moment from 'moment/moment.js'
+import bodyParser from 'body-parser'
+import rw from 'rw'
+import iconvLite from 'iconv-lite'
 import querystring from 'querystring'
 
 let calculateStat = (trial) => {
 
+  console.log(trial.keyboard)
   let hit = (x, y, keyId) => {
     if (x < stat.keyCenter[keyId].x - 0.75 * trial.keySize.height) return 'not count'
     if (x > stat.keyCenter[keyId].x + 0.75 * trial.keySize.height) return 'not count'
@@ -12,7 +16,7 @@ let calculateStat = (trial) => {
     if (y > stat.keyCenter[keyId].y + trial.keySize.height)        return 'not count'
     return 'count'
   }
-
+  
   let strokes = trial.history
   let lastStroke = strokes.shift()
   let stat = {
@@ -20,34 +24,36 @@ let calculateStat = (trial) => {
     nStroke: strokes.length,
     strokes: [],
     strokeCenter: {},
+    keyCenter:{},
     timestamp: trial.timestamp,
     // word per minute, ~5 key strokes per word
     WPM: (strokes.length - 1) / (strokes[strokes.length-1].timestamp - lastStroke.timestamp) * 1000 * 60 / 5,
-  }
+  };
 
   ////////////////////////////////////////////////////////////////
   // key and stroke centers
   //! wrap with an anonymouse function
-  let h = trial.keySize.height / 2, w = trial.keySize.width / 2
-  for (let i of trial.keyboard) {
-    stat.keyCenter[i] = { 
-      x: trial.keyOffset[i].left + w,
-      y: trial.keyOffset[i].top  + h,
-    } 
-    stat.strokeCenter[i] = { n: 0, x: 0, y: 0 }
-  }
-  for (let { target: { id: keyId }, user: { id: userKeyId, x, y } } of strokes) {
-    if (userKeyId === keyId) nCorrect++
-    if (!hit(x, y, keyId)) continue
-    stat.strokeCenter[keyId].n++
-    stat.strokeCenter[keyId].x += x
-    stat.strokeCenter[keyId].y += y
-  }
-  for (let i of trial.keyList) {
-    stat.strokeCenter[i].x /= stat.strokeCenter[i].n
-    stat.strokeCenter[i].y /= stat.strokeCenter[i].n
-  }
-
+  (() => {
+    let h = trial.keySize.height / 2, w = trial.keySize.width / 2
+    for (let i of trial.keyboard) {
+      stat.keyCenter[i] = { 
+        x: trial.keyOffset[i].left + w,
+        y: trial.keyOffset[i].top  + h,
+      } 
+      stat.strokeCenter[i] = { n: 0, x: 0, y: 0 }
+    }
+    for (let { target: { id: keyId }, user: { id: userKeyId, x, y } } of strokes) {
+      if (userKeyId === keyId) stat.nCorrect++
+      if (hit(x, y, keyId) !== 'count') continue
+      stat.strokeCenter[keyId].n++
+      stat.strokeCenter[keyId].x += x
+      stat.strokeCenter[keyId].y += y
+    }
+    for (let i of trial.keyboard) {
+      stat.strokeCenter[i].x /= stat.strokeCenter[i].n
+      stat.strokeCenter[i].y /= stat.strokeCenter[i].n
+    }
+  })()
   ////////////////////////////////////////////////////////////////
   // stat
   let curStroke, i, stroke
@@ -58,10 +64,10 @@ let calculateStat = (trial) => {
     stroke[i++] = Math.abs(stroke[i-3]) // abs y displacement
   }
   for (curStroke of strokes) {
-    i = 0, , stroke = []
+    i = 0, stroke = []
     let keyId = curStroke.target.id
     stroke[i++] = hit(curStroke.user.x, curStroke.user.y, keyId)
-    stroke[i++] = curStroke.target.id // target key
+    stroke[i++] = keyId // target key
     stroke[i++] = curStroke.user.id // user key
     stroke[i++] = curStroke.timestamp - lastStroke.timestamp // duration
     stroke[i++] = curStroke.user.x // x 
@@ -83,7 +89,6 @@ let calculateStat = (trial) => {
   console.log(stat)
   return stat
 }
-
 let Do = (query, res) => {
   let path = 'tp6vu6bp4/', trial
   if ('string' === typeof query)
@@ -105,9 +110,12 @@ let Do = (query, res) => {
 
 if (process.env.HTTP_HOST) { // from apache
   console.log("Content-type: text/plain\n")
-  Do(process.env.QUERY_STRING, console)
+  if('POST' == process.env.REQUEST_METHOD){
+    let input = iconvLite.decode(rw.readFileSync('/dev/stdin'), 'utf8')
+    if(input.length <= 1024*1024*8) Do(input, console)
+  }
 }
 
 module.exports = Do
 
-// vi:et:sw=2:ts=2
+// vi:et:sw=2:ts=2:sts=2

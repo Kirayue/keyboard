@@ -6,7 +6,6 @@ import gulpRename from 'gulp-rename'
 import gulpUtil from 'gulp-util'
 import webpack from 'webpack'
 import webpackConfig from './webpack.config.babel.js'
-
 let dist = 'dist'
 
 gulp.task('do', () => {
@@ -21,9 +20,13 @@ gulp.task('do', () => {
 gulp.task('server', ['do', 'webpack'], () => { 
   let Do = require('./do')
   let express = require('express')
+  let bodyParser = require('body-parser')
   let server = express()
-  server.get('/do', (req, res) => {
-    Do(req.query, res)
+  server.use(bodyParser.urlencoded({extended:false}))
+  server.use(bodyParser.json())
+  server.post('/do', (req, res) => {
+    //console.log(req.body.trial)
+    Do(req.body, res)
     res.end()
   })
   server.use(express.static(dist))
