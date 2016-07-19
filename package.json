@@ -4,9 +4,16 @@
   "description": "",
   "main": "index.js",
   "scripts": {
+    "lint-staged": "lint-staged",
+    "sass-lint": "sass-lint -c .sass-lint.yml -v",
     "build": "./node_modules/.bin/webpack --watch",
     "dev": "./node_modules/.bin/webpack-dev-server --port $(/bin/cat port || /bin/echo 8080)",
     "start": "./node_modules/.bin/gulp"
+  },
+  "pre-commit": "lint-staged",
+  "lint-staged": {
+    "*.@(js|jsx)": "eslint",
+    "*.sass": "sass-lint"
   },
   "repository": {
     "type": "git",
