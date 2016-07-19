@@ -4,11 +4,11 @@
   "description": "",
   "main": "index.js",
   "scripts": {
+    "build": "webpack --watch",
+    "dev": "webpack-dev-server --port $(/bin/cat port || /bin/echo 8080)",
     "lint-staged": "lint-staged",
     "sass-lint": "sass-lint -c .sass-lint.yml -v",
-    "build": "./node_modules/.bin/webpack --watch",
-    "dev": "./node_modules/.bin/webpack-dev-server --port $(/bin/cat port || /bin/echo 8080)",
-    "start": "./node_modules/.bin/gulp"
+    "start": "gulp"
   },
   "pre-commit": "lint-staged",
   "lint-staged": {

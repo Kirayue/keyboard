@@ -1,6 +1,5 @@
 import ExtractTextPlugin from 'extract-text-webpack-plugin'
 import HtmlWebpackPlugin from 'html-webpack-plugin'
-import webpack from 'webpack'
 
 export default {
   devServer: {
