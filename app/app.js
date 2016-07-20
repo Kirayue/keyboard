@@ -1,9 +1,8 @@
 import './app.sass'
-
 let app = { //! move history and opt into trial
   keyboard: 'abcdefghijklmnopqrstuvwxyz'.split(''),
   keyOffset: {}, //! for what?
-  opt: { nKeyPerRound: 3 },
+  opt: { nKeyPerRound: 5 },
   targetKeys: [],
 }
 
@@ -16,42 +15,61 @@ $(document).ready(function(){
       let key = {
         color: color,
         id: app.keyPool.splice(iKey, 1)[0],
-        text: i + 1,
+        text: color == 'red' ? i + 1: String.fromCharCode(i+65)
       }
       app.targetKeys.push(key)
-      $("#"+key.id).addClass(key.color).text(key.text);
+      $("#"+key.id).addClass(key.color).text(key.text)
     } 
   }
-  
+  function sendTrial() {
+    let trial = {
+      history: app.history,
+      keyboard: app.keyboard,
+      keySize: app.keySize,
+      keyOffset: app.keyOffset,
+      timestamp: new Date().getTime(),
+      opt: app.opt,
+    }
+    restart()
+    $('#stop').text('Send')
+    $.post('do', { trial: JSON.stringify(trial) }, () => {
+      $('#stop').text('Stop')
+    })
+  }
+   
   function restart() {
     app.history = []
     app.keyPool = Array.from(app.keyboard)
     for (let key of app.targetKeys)
       $('#'+key.id).removeClass(key.color).text('')
     app.targetKeys = []
-  }
-
-  $('#stop').click(() => {
-    let trial = {
-      history: app.history,
-      keyboard: app.keyboard,
-      keySize: app.keySize,
-      keyOffset: app.keyOffset,
-      opt: app.opt,
-      timestamp: new Date().getTime()
-    }
-    restart()
-    $('#stop').text('Send')
     nextRound('red') 
-    $.post('do', { trial: JSON.stringify(trial) }, () => {
-       console.log('Saved')
-       $('#stop').text('Stop')
+    $('#keyboard').one('click',() => {
+      let time = new Date().getTime() + 10000
+      $('#timer').countdown(time, (event) =>{
+        $('#timer').text(event.strftime(' %M min %S sec ')) 
+      }).on('stoped.countdown',() =>{
+        sendTrial()
+      })
     })
+  }
+  $('#stop').click(() => {
+    $('#timer').countdown('stop')
+    sendTrial()
+  })
+  $('#restart').click(() => {
+    restart()
   })
 
   $('.key').tap(event => {
     let key = app.targetKeys.shift()
     $('#'+key.id).removeClass(key.color).text('') // restore key
+    if( key.id != event.target.getAttribute('id') ){
+      $('#keyboard').css({background:"red"})
+      setTimeout(() => {
+        $('#keyboard').css({background:'url("res/keyboard.png")'})
+      },100)
+    }
     app.keyPool.push(key.id) // push key back to pool
     app.history.push({
       target: key,
@@ -65,18 +83,17 @@ $(document).ready(function(){
     if (app.targetKeys.length < 2)
       nextRound(key.color === 'red' ? 'blue' : 'red')
   })
-
-  restart()
+  
   
   setTimeout(() => { // prevent initial position problem
-    for (let i of app.keyPool) 
+    restart() // first round
+    for (let i of app.keyboard) 
       app.keyOffset[i] = $('#'+i).offset()
-    let $key = $('#'+app.keyPool[0])
+    let $key = $('#'+app.keyboard[0])
     app.keySize = { height: $key.height(), width: $key.width() }
-    nextRound('red') // first round
   },1000)
 
-});
+})
 
 
 // vi:et:sw=2:ts=2

@@ -15,7 +15,7 @@ $vertical-gap: ($keyboard-height - $key-height * 4) / 5
   padding: 0 .5em
 
 #keyboard
-  background-image: url(res/keyboard.png)
+  background: url(res/keyboard.png)
   bottom: 0
   height: $keyboard-height
   left: 0
@@ -26,21 +26,24 @@ $vertical-gap: ($keyboard-height - $key-height * 4) / 5
     text-align: center
     .key
       background: url(res/button.png)
-      color: white
       display: inline-block
-      font-size: 7vw
+      font-size: 9vw
       line-height: $key-height
       height: $key-height
       vertical-align: top
       width: $key-width
+      font-weight: bolder
       &.red
-        background: #880000
+        color: #880000
       &.blue
-        background: #003377
+        color: #003377
     .key+.key
       margin-left: $horizontal-gap
   #space
     margin-left: $key-width + $horizontal-gap
     width: 4 * $key-width + 3 * $horizontal-gap
-
+#timer
+  text-align: center
+  color: brown
+  font-size: 7vw
 // vi:et:sw=2:ts=2

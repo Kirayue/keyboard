@@ -11,10 +11,10 @@ let dist = 'dist'
 gulp.task('do', () => {
   return gulp.src('do.js')
     .pipe(require('gulp-babel')())
-	  .pipe(gulpInsert.prepend('#!/usr/local/bin/node\n'))
-	  .pipe(gulpRename('do'))
-	  .pipe(gulpChmod(755))
-	  .pipe(gulp.dest(dist))
+    .pipe(gulpInsert.prepend('#!/usr/local/bin/node\n'))
+    .pipe(gulpRename('do'))
+    .pipe(gulpChmod(755))
+    .pipe(gulp.dest(dist))
 })
 
 gulp.task('server', ['do', 'webpack'], () => { 

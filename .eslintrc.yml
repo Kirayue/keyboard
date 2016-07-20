@@ -3,6 +3,7 @@ env:
   commonjs: true
   es6: true
   node: true
+  jquery: true
 extends: 'eslint:recommended'
 parserOptions:
   ecmaFeatures:
@@ -21,3 +22,4 @@ rules:
   semi:
     - error
     - never
+  no-console: 'off'
