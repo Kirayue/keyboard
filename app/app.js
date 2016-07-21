@@ -36,7 +36,11 @@ $(document).ready(function(){
       $('#stop').text('Stop')
     })
   }
-   
+  $('#timer').countdown( new Date().getTime() + 5000, (event) =>{
+    $('#timer').text(event.strftime(' %M min %S sec '))
+  }).on('finish.countdown',() =>{
+    sendTrial()
+  }).countdown('stop')
   function restart() {
     app.history = []
     app.keyPool = Array.from(app.keyboard)
@@ -45,20 +49,16 @@ $(document).ready(function(){
     app.targetKeys = []
     nextRound('red') 
     $('#keyboard').one('click',() => {
-      let time = new Date().getTime() + 10000
-      $('#timer').countdown(time, (event) =>{
-        $('#timer').text(event.strftime(' %M min %S sec ')) 
-      }).on('stoped.countdown',() =>{
-        sendTrial()
-      })
+      $('#timer').countdown(new Date().getTime() + 5000)
     })
   }
   $('#stop').click(() => {
-    $('#timer').countdown('stop')
     sendTrial()
+    $('#timer').countdown(new Date().getTime() + 5000).countdown('stop')
   })
   $('#restart').click(() => {
     restart()
+    $('#timer').countdown(new Date().getTime() + 5000).countdown('stop')
   })
 
   $('.key').tap(event => {

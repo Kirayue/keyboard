@@ -7,7 +7,6 @@ import querystring from 'querystring'
 
 let calculateStat = (trial) => {
 
-  console.log(trial.keyboard)
   let hit = (x, y, keyId) => {
     if (x < stat.keyCenter[keyId].x - 0.75 * trial.keySize.height) return 'not count'
     if (x > stat.keyCenter[keyId].x + 0.75 * trial.keySize.height) return 'not count'
@@ -26,9 +25,8 @@ let calculateStat = (trial) => {
     keyCenter:{},
     timestamp: trial.timestamp,
     // word per minute, ~5 key strokes per word
-    WPM: (strokes.length - 1) / (strokes[strokes.length-1].timestamp - lastStroke.timestamp) * 1000 * 60 / 5,
+    WPM: (strokes.length) / (strokes[strokes.length-1].timestamp - lastStroke.timestamp) * 1000 * 60 / 5,
   };
-
   ////////////////////////////////////////////////////////////////
   // key and stroke centers
   (() => {
@@ -89,7 +87,7 @@ let calculateStat = (trial) => {
   stat.strokes.unshift(['T/F','Order','Count','Target','User','Duration(ms)','X','Y','displacement X','displacement Y','h-direction','v-direction','abs X','abs Y','distance','velocity(px/ms)','X to keyCenter ','Y to keyCenter','h-direction','v-direction','abs X to keyCenter','abs Y to keyCenter','distance to keyCenter','shifted X','shifted Y','X to shiftedKey','Y to shiftedKey','h-direction','v-direction','abs X to shiftedKey','abs Y to shiftedKey','distance to shiftedKey'])
   stat.accuracy = stat.nCorrect / stat.nStroke
   stat.strokes.push([""],['',"WPM","accuracy"],['',stat.WPM,stat.accuracy])
-  console.log(stat)
+  //console.log(stat)
   return stat
 }
 
@@ -114,9 +112,9 @@ let Do = (query, res) => {
 
 if (process.env.HTTP_HOST) { // from apache
   console.log("Content-type: text/plain\n")
-  if('POST' == process.env.REQUEST_METHOD){
+  if ('POST' == process.env.REQUEST_METHOD){
     let input = iconvLite.decode(rw.readFileSync('/dev/stdin'), 'utf8')
-    if(input.length <= 1024*1024*8) Do(input, console)
+    if (input.length <= 1024*1024*8) Do(input, console)
   }
 }
 
