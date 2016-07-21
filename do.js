@@ -31,7 +31,6 @@ let calculateStat = (trial) => {
 
   ////////////////////////////////////////////////////////////////
   // key and stroke centers
-  //! wrap with an anonymouse function
   (() => {
     let h = trial.keySize.height / 2, w = trial.keySize.width / 2
     for (let i of trial.keyboard) {
@@ -53,6 +52,7 @@ let calculateStat = (trial) => {
       stat.strokeCenter[i].y /= stat.strokeCenter[i].n
     }
   })()
+
   ////////////////////////////////////////////////////////////////
   // stat
   let curStroke, i, stroke
@@ -92,6 +92,7 @@ let calculateStat = (trial) => {
   console.log(stat)
   return stat
 }
+
 let Do = (query, res) => {
   let path = 'tp6vu6bp4/', trial
   if ('string' === typeof query)
