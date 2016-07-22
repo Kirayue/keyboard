@@ -26,7 +26,7 @@ let calculateStat = (trial) => {
     timestamp: trial.timestamp,
     // word per minute, ~5 key strokes per word
     WPM: (strokes.length) / (strokes[strokes.length-1].timestamp - lastStroke.timestamp) * 1000 * 60 / 5,
-  };
+  }
   ////////////////////////////////////////////////////////////////
   // key and stroke centers
   {
