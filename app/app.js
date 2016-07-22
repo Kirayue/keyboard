@@ -32,11 +32,12 @@ $(document).ready(function(){
     }
     restart()
     $('#stop').text('Send')
+    if ( trial.history.length < 2) {return}
     $.post('do', { trial: JSON.stringify(trial) }, () => {
       $('#stop').text('Stop')
     })
   }
-  $('#timer').countdown( new Date().getTime() + 5000, (event) =>{
+  $('#timer').countdown( new Date().getTime() + 60000, (event) =>{
     $('#timer').text(event.strftime(' %M min %S sec '))
   }).on('finish.countdown',() =>{
     sendTrial()
@@ -49,16 +50,16 @@ $(document).ready(function(){
     app.targetKeys = []
     nextRound('red') 
     $('#keyboard').one('click',() => {
-      $('#timer').countdown(new Date().getTime() + 5000)
+      $('#timer').countdown(new Date().getTime() + 60000)
     })
   }
   $('#stop').click(() => {
     sendTrial()
-    $('#timer').countdown(new Date().getTime() + 5000).countdown('stop')
+    $('#timer').countdown(new Date().getTime() + 60000).countdown('stop')
   })
   $('#restart').click(() => {
     restart()
-    $('#timer').countdown(new Date().getTime() + 5000).countdown('stop')
+    $('#timer').countdown(new Date().getTime() + 60000).countdown('stop')
   })
 
   $('.key').tap(event => {

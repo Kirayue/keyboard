@@ -7,15 +7,17 @@ $keyboard-width: 100vw
 $keyboard-height: 3.5 / 5.8 * $keyboard-width
 $key-height: .75 / 5.8 * $keyboard-width
 $key-width: .48 / 5.8 * $keyboard-width
-$horizontal-gap: ($keyboard-width - $key-width * 10) / 11 
+$horizontal-gap: ($keyboard-width - $key-width * 10) / 11
 $vertical-gap: ($keyboard-height - $key-height * 4) / 5
 
 // color
 $red: #800
+$blue: #037
+$brown: #a52a2a
 
-[data-role=page]
+[data-role='page']
   box-sizing: border-box
-  padding: 0 .5em
+  padding: .5em
 
 #keyboard
   background: url('res/keyboard.png')
@@ -30,25 +32,30 @@ $red: #800
     text-align: center
 
     .key
-      background: url(res/button.png)
+      background: url('res/button.png')
       display: inline-block
       font-size: 9vw
-      line-height: $key-height
+      font-weight: bolder
       height: $key-height
+      line-height: $key-height
       vertical-align: top
       width: $key-width
-      font-weight: bolder
+
       &.red
         color: $red
+
       &.blue
-        color: #037
+        color: $blue
+
     .key+.key
       margin-left: $horizontal-gap
+
   #space
     margin-left: $key-width + $horizontal-gap
     width: 4 * $key-width + 3 * $horizontal-gap
+
 #timer
-  color: brown
+  color: $brown
   font-size: 7vw
   text-align: center
 

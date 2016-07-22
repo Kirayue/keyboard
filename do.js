@@ -29,7 +29,7 @@ let calculateStat = (trial) => {
   };
   ////////////////////////////////////////////////////////////////
   // key and stroke centers
-  (() => {
+  {
     let h = trial.keySize.height / 2, w = trial.keySize.width / 2
     for (let i of trial.keyboard) {
       stat.keyCenter[i] = { 
@@ -49,7 +49,7 @@ let calculateStat = (trial) => {
       stat.strokeCenter[i].x /= stat.strokeCenter[i].n
       stat.strokeCenter[i].y /= stat.strokeCenter[i].n
     }
-  })()
+  }
 
   ////////////////////////////////////////////////////////////////
   // stat
