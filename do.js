@@ -1,3 +1,4 @@
+/* eslint no-console:0 */
 import csvStringify from 'csv-stringify'
 import fs from 'fs'
 import moment from 'moment/moment.js'

@@ -6,7 +6,7 @@ env:
   jquery: true
 extends: 'eslint:recommended'
 parserOptions:
-  ecmaversion: 6
+  ecmaVersion: 6
   ecmaFeatures:
     jsx: true
   sourceType: module
@@ -18,9 +18,8 @@ rules:
     - error
     - unix
   quotes:
-    - off
+    - 0
     - double
   semi:
     - error
     - never
-  no-console: 'off'
