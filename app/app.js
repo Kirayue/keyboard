@@ -1,11 +1,15 @@
 import './app.sass'
-let app = { //! move history and opt into trial
+
+let $ = window.jQuery = require('jquery/dist/jquery.js')
+$.event.props = []
+require('imports?this=>window!jquery-mobile/dist/jquery.mobile.js')
+
+let app = {
   keyboard: 'abcdefghijklmnopqrstuvwxyz'.split(''),
-  keyOffset: {}, //! for what?
+  keyOffset: {},
   opt: { nKeyPerRound: 5 },
   targetKeys: [],
 }
-
 
 $(document).ready(function(){
 
@@ -21,6 +25,7 @@ $(document).ready(function(){
       $("#"+key.id).addClass(key.color).text(key.text)
     } 
   }
+  //! lint, an empty line is forced
   function sendTrial() {
     let trial = {
       history: app.history,
@@ -37,11 +42,13 @@ $(document).ready(function(){
       $('#stop').text('Stop')
     })
   }
+  /*
   $('#timer').countdown( new Date().getTime() + 60000, (event) =>{
     $('#timer').text(event.strftime(' %M min %S sec '))
   }).on('finish.countdown',() =>{
     sendTrial()
   }).countdown('stop')
+  */
   function restart() {
     app.history = []
     app.keyPool = Array.from(app.keyboard)
@@ -49,17 +56,19 @@ $(document).ready(function(){
       $('#'+key.id).removeClass(key.color).text('')
     app.targetKeys = []
     nextRound('red') 
+    /*
     $('#keyboard').one('click',() => {
       $('#timer').countdown(new Date().getTime() + 60000)
     })
+    */
   }
   $('#stop').click(() => {
     sendTrial()
-    $('#timer').countdown(new Date().getTime() + 60000).countdown('stop')
+    //$('#timer').countdown(new Date().getTime() + 60000).countdown('stop')
   })
   $('#restart').click(() => {
     restart()
-    $('#timer').countdown(new Date().getTime() + 60000).countdown('stop')
+    //$('#timer').countdown(new Date().getTime() + 60000).countdown('stop')
   })
 
   $('.key').tap(event => {
@@ -92,9 +101,8 @@ $(document).ready(function(){
       app.keyOffset[i] = $('#'+i).offset()
     let $key = $('#'+app.keyboard[0])
     app.keySize = { height: $key.height(), width: $key.width() }
-  },1000)
+  },1000) //! lint, a space before 1000 is forced
 
 })
-
 
 // vi:et:sw=2:ts=2

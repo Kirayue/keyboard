@@ -17,13 +17,14 @@ export default {
       { test: /\.sass$/, loader: ExtractTextPlugin.extract('style', 'css!sass') },
       { test: /\.pug$/, loader:'pug-html-loader'}
     ],
+    noParse: /jquery/,
   },
   output: {
     filename: 'app.js',
     path: 'dist',
   },
   plugins: [
-    new ExtractTextPlugin("app.css"),
+    new ExtractTextPlugin('app.css'),
     new HtmlWebpackPlugin({ template: './app/index.pug' }),
   ]
 }
