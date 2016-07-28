@@ -2,7 +2,10 @@ import './app.sass'
 
 const $ = window.jQuery = require('jquery/dist/jquery.js')
 $.event.props = []
+/* eslint-disable import/no-unresolved */
 require('imports?this=>window!jquery-mobile/dist/jquery.mobile.js')
+require('jquery-countdown/dist/jquery.countdown.min.js')
+/* eslint-enable import/no-unresolved */
 
 const app = { //! move history and opt into trial
   keyboard: 'abcdefghijklmnopqrstuvwxyz'.split(''),
