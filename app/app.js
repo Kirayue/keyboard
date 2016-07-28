@@ -27,6 +27,7 @@ $(document).ready(() => {
       $(`#${key.id}`).addClass(key.color).text(key.text)
     }
   }
+
   function restart() {
     app.history = []
     app.keyPool = Array.from(app.keyboard)
@@ -56,18 +57,21 @@ $(document).ready(() => {
       $('#stop').text('Stop')
     })
   }
+
   $('#timer')
-  .countdown(new Date().getTime() + 60000, (event) => {
-    $('#timer').text(event.strftime(' %M min %S sec '))
-  })
-  .on('finish.countdown', () => {
-    sendTrial()
-  })
-  .countdown('stop')
+    .countdown(new Date().getTime() + 60000, (event) => {
+      $('#timer').text(event.strftime(' %M min %S sec '))
+    })
+    .on('finish.countdown', () => {
+      sendTrial()
+    })
+    .countdown('stop')
+
   $('#stop').click(() => {
     sendTrial()
     $('#timer').countdown(new Date().getTime() + 60000).countdown('stop')
   })
+
   $('#restart').click(() => {
     restart()
     $('#timer').countdown(new Date().getTime() + 60000).countdown('stop')
@@ -96,7 +100,6 @@ $(document).ready(() => {
       nextRound(key.color === 'red' ? 'blue' : 'red')
     }
   })
-
 
   setTimeout(() => { // prevent initial position problem
     restart() // first round

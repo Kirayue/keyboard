@@ -8,14 +8,14 @@ export default {
     inline: true,
     stats: { chunkModules: false, colors: true },
   },
-  entry:'./app/app.js',
+  entry: './app/app.js',
   module: {
     loaders: [
       { test: /\.css$/, loader: ExtractTextPlugin.extract('style', 'css') },
       { test: /\.(jpg|png)$/, loader: 'url?limit=8192' },
       { test: /\.js$/, exclude: /node_modules/, loader: 'babel', query: { presets: ['es2015'] } },
       { test: /\.sass$/, loader: ExtractTextPlugin.extract('style', 'css!sass') },
-      { test: /\.pug$/, loader:'pug-html-loader'}
+      { test: /\.pug$/, loader: 'pug-html-loader' },
     ],
     noParse: /jquery/,
   },
@@ -26,7 +26,7 @@ export default {
   plugins: [
     new ExtractTextPlugin('app.css'),
     new HtmlWebpackPlugin({ template: './app/index.pug' }),
-  ]
+  ],
 }
 
 // vi:et:ts=2
