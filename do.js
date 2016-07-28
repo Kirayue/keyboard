@@ -18,10 +18,10 @@ const calculateStat = (trial) => {
     timestamp: trial.timestamp,
     // word per minute, ~5 key strokes per word
     WPM: (strokes.length) / (strokes[strokes.length - 1].timestamp - lastStroke.timestamp) * 1000 * 60 / 5,
-    R_keyCount: [0, 0, 0, 0, 0, 0, 0, 0, 0], // ['direction count','Left count to keyCenter','Right count to keyCenter','Left count to shiftedKey','Right count to shiftedKey']
-    L_keyCount: [0, 0, 0, 0, 0, 0, 0, 0, 0], // ['direction count','Left count to keyCenter','Right count to keyCenter','Left count to shiftedKey','Right count to shiftedKey']
-    T_keyCount: [0, 0, 0, 0, 0, 0, 0, 0, 0], // ['direction count','Top count to keyCenter','Down count to keyCenter','Top count to shiftedKey','Down count to shiftedKey']
-    D_keyCount: [0, 0, 0, 0, 0, 0, 0, 0, 0], // ['direction count','Top count to keyCenter','Down count to keyCenter','Top count to shiftedKey','Down count to shiftedKey']
+    R_keyCount: Array(9).fill(0), // ['direction count','Left count to keyCenter','Right count to keyCenter','Left count to shiftedKey','Right count to shiftedKey']
+    L_keyCount: Array(9).fill(0), // ['direction count','Left count to keyCenter','Right count to keyCenter','Left count to shiftedKey','Right count to shiftedKey']
+    T_keyCount: Array(9).fill(0), // ['direction count','Top count to keyCenter','Down count to keyCenter','Top count to shiftedKey','Down count to shiftedKey']
+    D_keyCount: Array(9).fill(0), // ['direction count','Top count to keyCenter','Down count to keyCenter','Top count to shiftedKey','Down count to shiftedKey']
   }
   const hit = (x, y, keyId) => {
     if (x < stat.keyCenter[keyId].x - 0.75 * trial.keySize.height) return 'not count'
