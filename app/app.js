@@ -10,8 +10,10 @@ require('jquery-countdown/dist/jquery.countdown.min.js')
 const app = { //! move history and opt into trial
   keyboard: 'abcdefghijklmnopqrstuvwxyz'.split(''),
   keyOffset: {},
-  opt: { nKeyPerRound: 5 },
+  opt: { nKeyPerRound: 3 },
   targetKeys: [],
+  state: true,
+  duration: 60000,
 }
 
 $(document).ready(() => {
@@ -36,9 +38,11 @@ $(document).ready(() => {
     }
     app.targetKeys = []
     nextRound('red')
-    $('#keyboard').one('click', () => {
-      $('#timer').countdown(new Date().getTime() + 60000)
-    })
+    if(app.state === true){
+      $('#keyboard').one('click', () => {
+        $('#timer').countdown(new Date().getTime() + app.duration)
+      })
+    }
   }
   //! lint, an empty line is forced
   function sendTrial() {
@@ -59,48 +63,55 @@ $(document).ready(() => {
   }
 
   $('#timer')
-    .countdown(new Date().getTime() + 60000, (event) => {
+    .countdown(new Date().getTime() + app.duration, (event) => {
       $('#timer').text(event.strftime(' %M min %S sec '))
     })
     .on('finish.countdown', () => {
+      app.state = false
       sendTrial()
     })
     .countdown('stop')
 
   $('#stop').click(() => {
     sendTrial()
-    $('#timer').countdown(new Date().getTime() + 60000).countdown('stop')
+    $('#timer').countdown(new Date().getTime() + app.duration).countdown('stop')
   })
 
   $('#restart').click(() => {
+    app.state = true
     restart()
-    $('#timer').countdown(new Date().getTime() + 60000).countdown('stop')
+    $('#timer').countdown(new Date().getTime() + app.duration).countdown('stop')
   })
-
+  const tap_handler = event => {
+    if (app.state){
+      const key = app.targetKeys.shift()
+      $(`#${key.id}`).removeClass(key.color).text('') // restore key
+      if (key.id !== event.target.getAttribute('id')) {
+        $('#keyboard').css({ background: 'red' })
+        setTimeout(() => {
+          $('#keyboard').css({ background: "url('res/keyboard.png')" })
+        }, 100)
+      }
+      app.keyPool.push(key.id) // push key back to pool
+      app.history.push({
+        target: key,
+        timestamp: new Date().getTime(),
+        user: {
+          id: event.target.getAttribute('id') === 'keyboard' ? '' : event.target.getAttribute('id'),
+          x: event.pageX,
+          y: event.pageY,
+        },
+      })
+      if (app.targetKeys.length < 2) {
+        nextRound(key.color === 'red' ? 'blue' : 'red')
+      }
+    }
+  }
   $('.key').tap(event => {
-    const key = app.targetKeys.shift()
-    $(`#${key.id}`).removeClass(key.color).text('') // restore key
-    if (key.id !== event.target.getAttribute('id')) {
-      $('#keyboard').css({ background: 'red' })
-      setTimeout(() => {
-        $('#keyboard').css({ background: "url('res/keyboard.png')" })
-      }, 100)
-    }
-    app.keyPool.push(key.id) // push key back to pool
-    app.history.push({
-      target: key,
-      timestamp: new Date().getTime(),
-      user: {
-        id: event.target.getAttribute('id'),
-        x: event.pageX,
-        y: event.pageY,
-      },
-    })
-    if (app.targetKeys.length < 2) {
-      nextRound(key.color === 'red' ? 'blue' : 'red')
-    }
+    event.stopPropagation()
+    tap_handler(event)
   })
-
+  $('#keyboard').tap(tap_handler)
   setTimeout(() => { // prevent initial position problem
     restart() // first round
     for (const i of app.keyboard) {

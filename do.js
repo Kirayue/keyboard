@@ -87,56 +87,63 @@ const calculateStat = (trial) => {
     if (stroke[10] === 'Right') {
       stat.R_keyCount[0]++
       stroke[18] === 'Left' ? stat.R_keyCount[1]++ : stat.R_keyCount[2]++
-      stroke[19] === 'Top' ? stat.R_keyCount[3]++ : stat.R_keyCount[4]++
-      stroke[27] === 'Left' ? stat.R_keyCount[5]++ : stat.R_keyCount[6]++
+      stroke[27] === 'Left' ? stat.R_keyCount[3]++ : stat.R_keyCount[4]++
+      stroke[19] === 'Top' ? stat.R_keyCount[5]++ : stat.R_keyCount[6]++
       stroke[28] === 'Top' ? stat.R_keyCount[7]++ : stat.R_keyCount[8]++
     }
     else {
       stat.L_keyCount[0]++
       stroke[18] === 'Left' ? stat.L_keyCount[1]++ : stat.L_keyCount[2]++
-      stroke[19] === 'Top' ? stat.L_keyCount[3]++ : stat.L_keyCount[4]++
-      stroke[27] === 'Left' ? stat.L_keyCount[5]++ : stat.L_keyCount[6]++
+      stroke[27] === 'Left' ? stat.L_keyCount[3]++ : stat.L_keyCount[4]++
+      stroke[19] === 'Top' ? stat.L_keyCount[5]++ : stat.L_keyCount[6]++
       stroke[28] === 'Top' ? stat.L_keyCount[7]++ : stat.L_keyCount[8]++
     }
     if (stroke[11] === 'Top') {
       stat.T_keyCount[0]++
       stroke[18] === 'Left' ? stat.T_keyCount[1]++ : stat.T_keyCount[2]++
-      stroke[19] === 'Top' ? stat.T_keyCount[3]++ : stat.T_keyCount[4]++
-      stroke[27] === 'Left' ? stat.T_keyCount[5]++ : stat.T_keyCount[6]++
+      stroke[27] === 'Left' ? stat.T_keyCount[3]++ : stat.T_keyCount[4]++
+      stroke[19] === 'Top' ? stat.T_keyCount[5]++ : stat.T_keyCount[6]++
       stroke[28] === 'Top' ? stat.T_keyCount[7]++ : stat.T_keyCount[8]++
     }
     else {
       stat.D_keyCount[0]++
       stroke[18] === 'Left' ? stat.D_keyCount[1]++ : stat.D_keyCount[2]++
-      stroke[19] === 'Top' ? stat.D_keyCount[3]++ : stat.D_keyCount[4]++
-      stroke[27] === 'Left' ? stat.D_keyCount[5]++ : stat.D_keyCount[6]++
+      stroke[27] === 'Left' ? stat.D_keyCount[3]++ : stat.D_keyCount[4]++
+      stroke[19] === 'Top' ? stat.D_keyCount[5]++ : stat.D_keyCount[6]++
       stroke[28] === 'Top' ? stat.D_keyCount[7]++ : stat.D_keyCount[8]++
     }
 
     stat.strokes.push(stroke)
     lastStroke = curStroke
   }
+  const row_count_name = ['Left to kc', 'Right to kc', 'Left to skc', 'Right to skc', 'Top to kc', 'Down to kc', 'Top to skc', 'Down to skc']
   stat.strokes.unshift(['T/F', 'Order', 'Count', 'Target', 'User', 'Duration(ms)',
-                        'X', 'Y', 'displacement X', 'displacement Y', 'h-direction', 'v-direction', 'abs X', 'abs Y', 'distance', 'velocity(px/ms)',
-                        'X to keyCenter ', 'Y to keyCenter', 'h-direction', 'v-direction', 'abs X to keyCenter', 'abs Y to keyCenter', 'distance to keyCenter',
-                        'shifted X', 'shifted Y', 'X to shiftedKey', 'Y to shiftedKey', 'h-direction', 'v-direction', 'abs X to shiftedKey', 'abs Y to shiftedKey', 'distance to shiftedKey'])
+                        'X', 'Y', 'displacement X', 'displacement Y', 'h-dir-move', 'v-dir-move', 'abs X', 'abs Y', 'distance', 'velocity(px/ms)',
+                        'X to kc', 'Y to kc', 'h-dir-move', 'v-dir-move', 'abs X to kc', 'abs Y to kc', 'distance to kc',
+                        'shifted X', 'shifted Y', 'X to skc', 'Y to skc', 'h-dir-move', 'v-dir-move', 'abs X to skc', 'abs Y to skc', 'distance to skc',
+                        'WPM', 'accuracy', ...row_count_name])
   stat.accuracy = stat.nCorrect / stat.nStroke
-  stat.strokes.push([''],
-                     ['', 'WPM', 'accuracy', '', '', 'ReftCount', 'Left to keyCenter', 'Right to keyCenter', 'Top to keyCenter', 'Down to keyCenter', 'Left to shiftedKey', 'Right to shiftedKey', 'Top to shiftedKey', 'Down to shiftedKey'],
-                     ['', stat.WPM, stat.accuracy, '', ''].concat(stat.R_keyCount),
-                     ['', '', '', '', '',
-                     'LeftCount', 'Left to keyCenter', 'Right to keyCenter', 'Top to keyCenter', 'Down to keyCenter',
-                     'Left to shiftedKey', 'Right to shiftedKey', 'Top to shiftedKey', 'Down to shiftedKey'],
-                     ['', '', '', '', ''].concat(stat.L_keyCount),
-                     ['', '', '', '', '',
-                     'TeftCount', 'Left to keyCenter', 'Right to keyCenter', 'Top to keyCenter', 'Down to keyCenter',
-                     'Left to shiftedKey', 'Right to shiftedKey', 'Top to shiftedKey', 'Down to shiftedKey'],
-                     ['', '', '', '', ''].concat(stat.T_keyCount),
-                     ['', '', '', '', '',
-                     'DeftCount', 'Left to keyCenter', 'Right to keyCenter', 'Top to keyCenter', 'Down to keyCenter',
-                     'Left to shiftedKey', 'Right to shiftedKey', 'Top to shiftedKey', 'Down to shiftedKey'],
-                     ['', '', '', '', ''].concat(stat.D_keyCount))
-  console.log(stat)
+  const row_percent = ['Left to kc %', 'Right to kc %', 'Left to skc %', 'Right to skc %', 'Top to kc %', 'Down to kc %', 'Top to skc %', 'Down to kc %']
+  const right_row_percent = stat.R_keyCount.map((value, index, arr) =>  arr[0] === 0 ? 0 : value / arr[0] * 100).slice(1, stat.R_keyCount.length)
+  const left_row_percent = stat.L_keyCount.map((value, index, arr) => arr[0] === 0 ? 0 : value / arr[0] * 100).slice(1, stat.L_keyCount.length)
+  const top_row_percent = stat.T_keyCount.map((value, index, arr) =>  arr[0] === 0 ? 0 : value / arr[0] * 100).slice(1, stat.T_keyCount.length)
+  const down_row_percent = stat.D_keyCount.map((value, index, arr) =>  arr[0] === 0 ? 0 : value / arr[0] * 100).slice(1, stat.D_keyCount.length)
+  stat.strokes[1] = [...stat.strokes[1], stat.WPM, stat.accuracy, ...stat.R_keyCount]
+  stat.strokes[2] ? stat.strokes[2] = [...stat.strokes[2], '', '', '', ...row_percent] : stat.strokes[2] =  [...Array(32).fill(''), '', '', '', ...row_percent]
+  stat.strokes[3] ? stat.strokes[3] = [...stat.strokes[3], '', '', '', ...right_row_percent] : stat.strokes[3] =  [...Array(32).fill('') , '', '', '', ...right_row_percent]
+  stat.strokes[4] ? stat.strokes[4] = [...stat.strokes[4], '', '', 'left-move', ...row_count_name] : stat.strokes[4] = [...Array(32).fill(''), '', '', ...row_count_name]
+  stat.strokes[5] ? stat.strokes[5] = [...stat.strokes[5], '', '', ...stat.L_keyCount]: stat.strokes[5] = [...Array(32).fill(''), '', '', ...stat.L_keyCount]
+  stat.strokes[6] ? stat.strokes[6] = [...stat.strokes[6], '', '', '', ...row_percent]: stat.strokes[6] = [...Array(32).fill(''), '', '', '', ...row_percent]
+  stat.strokes[7] ? stat.strokes[7] = [...stat.strokes[7], '', '', '', ...left_row_percent]: stat.strokes[7] = [...Array(32).fill(''), '', '', '',...left_row_percent]
+  stat.strokes[8] ? stat.strokes[8] = [...stat.strokes[8], '', '', 'top-move', ...row_count_name]: stat.strokes[8] = [...Array(32).fill(''), '', '', ...row_count_name]
+  stat.strokes[9] ? stat.strokes[9] = [...stat.strokes[9], '', '', ...stat.T_keyCount]: stat.strokes[9] = [...Array(32).fill(''), '', '', ...stat.T_keyCount]
+  stat.strokes[10] ? stat.strokes[10] = [...stat.strokes[10], '', '', '', ...row_percent]: stat.strokes[10] = [...Array(32).fill(''), '', '', '', ...row_percent]
+  stat.strokes[11] ? stat.strokes[11] = [...stat.strokes[11], '', '', '', ...top_row_percent]: stat.strokes[11] = [...Array(32).fill(''), '', '', '',...top_row_percent]
+  stat.strokes[12] ? stat.strokes[12] = [...stat.strokes[12], '', '', 'down-move', ...row_count_name]: stat.strokes[12] = [...Array(32).fill(''), '', '', ...row_count_name]
+  stat.strokes[13] ? stat.strokes[13] = [...stat.strokes[13], '', '', ...stat.D_keyCount]: stat.strokes[13] = [...Array(32).fill(''), '', '', ...stat.D_keyCount]
+  stat.strokes[14] ? stat.strokes[14] = [...stat.strokes[14], '', '', '', ...row_percent]: stat.strokes[14] = [...Array(32).fill(''), '', '', '', ...row_percent]
+  stat.strokes[15] ? stat.strokes[15] = [...stat.strokes[15], '', '', '', ...down_row_percent]: stat.strokes[15] = [...Array(32).fill(''), '', '', '', ...down_row_percent]
+  //console.log(stat)
   return stat
 }
 
