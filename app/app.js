@@ -17,6 +17,7 @@ const app = { //! move history and opt into trial
 }
 
 $(document).ready(() => {
+  let lastTime = new Date().getTime()
   function nextRound(color) {
     for (let i = 0; i < app.opt.nKeyPerRound; i++) {
       const iKey = Math.floor((Math.random() * app.keyPool.length))
@@ -38,7 +39,7 @@ $(document).ready(() => {
     }
     app.targetKeys = []
     nextRound('red')
-    if(app.state === true){
+    if (app.state === true) {
       $('#keyboard').one('click', () => {
         $('#timer').countdown(new Date().getTime() + app.duration)
       })
@@ -82,8 +83,9 @@ $(document).ready(() => {
     restart()
     $('#timer').countdown(new Date().getTime() + app.duration).countdown('stop')
   })
-  const tap_handler = event => {
-    if (app.state){
+  const tapHandler = event => {
+    let timestamp = new Date().getTime()
+    if (app.state && timestamp - lastTime > 10) {
       const key = app.targetKeys.shift()
       $(`#${key.id}`).removeClass(key.color).text('') // restore key
       if (key.id !== event.target.getAttribute('id')) {
@@ -95,7 +97,7 @@ $(document).ready(() => {
       app.keyPool.push(key.id) // push key back to pool
       app.history.push({
         target: key,
-        timestamp: new Date().getTime(),
+        timestamp,
         user: {
           id: event.target.getAttribute('id') === 'keyboard' ? '' : event.target.getAttribute('id'),
           x: event.pageX,
@@ -106,12 +108,13 @@ $(document).ready(() => {
         nextRound(key.color === 'red' ? 'blue' : 'red')
       }
     }
+    lastTime = timestamp
   }
   $('.key').tap(event => {
     event.stopPropagation()
-    tap_handler(event)
+    tapHandler(event)
   })
-  $('#keyboard').tap(tap_handler)
+  $('#keyboard').tap(tapHandler)
   setTimeout(() => { // prevent initial position problem
     restart() // first round
     for (const i of app.keyboard) {

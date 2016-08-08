@@ -116,34 +116,34 @@ const calculateStat = (trial) => {
     stat.strokes.push(stroke)
     lastStroke = curStroke
   }
-  const row_count_name = ['Left to kc', 'Right to kc', 'Left to skc', 'Right to skc', 'Top to kc', 'Down to kc', 'Top to skc', 'Down to skc']
+  const rowCountName = ['Left to kc', 'Right to kc', 'Left to skc', 'Right to skc', 'Top to kc', 'Down to kc', 'Top to skc', 'Down to skc']
   stat.strokes.unshift(['T/F', 'Order', 'Count', 'Target', 'User', 'Duration(ms)',
                         'X', 'Y', 'displacement X', 'displacement Y', 'h-dir-move', 'v-dir-move', 'abs X', 'abs Y', 'distance', 'velocity(px/ms)',
                         'X to kc', 'Y to kc', 'h-dir-move', 'v-dir-move', 'abs X to kc', 'abs Y to kc', 'distance to kc',
                         'shifted X', 'shifted Y', 'X to skc', 'Y to skc', 'h-dir-move', 'v-dir-move', 'abs X to skc', 'abs Y to skc', 'distance to skc',
-                        'WPM', 'accuracy', ...row_count_name])
+                        'WPM', 'accuracy', ...rowCountName])
   stat.accuracy = stat.nCorrect / stat.nStroke
-  const row_percent = ['Left to kc %', 'Right to kc %', 'Left to skc %', 'Right to skc %', 'Top to kc %', 'Down to kc %', 'Top to skc %', 'Down to kc %']
-  const right_row_percent = stat.R_keyCount.map((value, index, arr) =>  arr[0] === 0 ? 0 : value / arr[0] * 100).slice(1, stat.R_keyCount.length)
-  const left_row_percent = stat.L_keyCount.map((value, index, arr) => arr[0] === 0 ? 0 : value / arr[0] * 100).slice(1, stat.L_keyCount.length)
-  const top_row_percent = stat.T_keyCount.map((value, index, arr) =>  arr[0] === 0 ? 0 : value / arr[0] * 100).slice(1, stat.T_keyCount.length)
-  const down_row_percent = stat.D_keyCount.map((value, index, arr) =>  arr[0] === 0 ? 0 : value / arr[0] * 100).slice(1, stat.D_keyCount.length)
+  const rowPercent = ['Left to kc %', 'Right to kc %', 'Left to skc %', 'Right to skc %', 'Top to kc %', 'Down to kc %', 'Top to skc %', 'Down to kc %']
+  const rightRowPercent = stat.R_keyCount.map((value, index, arr) => (arr[0] === 0 ? 0 : value / arr[0] * 100)).slice(1, stat.R_keyCount.length)
+  const leftRowPercent = stat.L_keyCount.map((value, index, arr) => (arr[0] === 0 ? 0 : value / arr[0] * 100)).slice(1, stat.L_keyCount.length)
+  const topRowPercent = stat.T_keyCount.map((value, index, arr) => (arr[0] === 0 ? 0 : value / arr[0] * 100)).slice(1, stat.T_keyCount.length)
+  const downRowPercent = stat.D_keyCount.map((value, index, arr) => (arr[0] === 0 ? 0 : value / arr[0] * 100)).slice(1, stat.D_keyCount.length)
   stat.strokes[1] = [...stat.strokes[1], stat.WPM, stat.accuracy, ...stat.R_keyCount]
-  stat.strokes[2] ? stat.strokes[2] = [...stat.strokes[2], '', '', '', ...row_percent] : stat.strokes[2] =  [...Array(32).fill(''), '', '', '', ...row_percent]
-  stat.strokes[3] ? stat.strokes[3] = [...stat.strokes[3], '', '', '', ...right_row_percent] : stat.strokes[3] =  [...Array(32).fill('') , '', '', '', ...right_row_percent]
-  stat.strokes[4] ? stat.strokes[4] = [...stat.strokes[4], '', '', 'left-move', ...row_count_name] : stat.strokes[4] = [...Array(32).fill(''), '', '', ...row_count_name]
-  stat.strokes[5] ? stat.strokes[5] = [...stat.strokes[5], '', '', ...stat.L_keyCount]: stat.strokes[5] = [...Array(32).fill(''), '', '', ...stat.L_keyCount]
-  stat.strokes[6] ? stat.strokes[6] = [...stat.strokes[6], '', '', '', ...row_percent]: stat.strokes[6] = [...Array(32).fill(''), '', '', '', ...row_percent]
-  stat.strokes[7] ? stat.strokes[7] = [...stat.strokes[7], '', '', '', ...left_row_percent]: stat.strokes[7] = [...Array(32).fill(''), '', '', '',...left_row_percent]
-  stat.strokes[8] ? stat.strokes[8] = [...stat.strokes[8], '', '', 'top-move', ...row_count_name]: stat.strokes[8] = [...Array(32).fill(''), '', '', ...row_count_name]
-  stat.strokes[9] ? stat.strokes[9] = [...stat.strokes[9], '', '', ...stat.T_keyCount]: stat.strokes[9] = [...Array(32).fill(''), '', '', ...stat.T_keyCount]
-  stat.strokes[10] ? stat.strokes[10] = [...stat.strokes[10], '', '', '', ...row_percent]: stat.strokes[10] = [...Array(32).fill(''), '', '', '', ...row_percent]
-  stat.strokes[11] ? stat.strokes[11] = [...stat.strokes[11], '', '', '', ...top_row_percent]: stat.strokes[11] = [...Array(32).fill(''), '', '', '',...top_row_percent]
-  stat.strokes[12] ? stat.strokes[12] = [...stat.strokes[12], '', '', 'down-move', ...row_count_name]: stat.strokes[12] = [...Array(32).fill(''), '', '', ...row_count_name]
-  stat.strokes[13] ? stat.strokes[13] = [...stat.strokes[13], '', '', ...stat.D_keyCount]: stat.strokes[13] = [...Array(32).fill(''), '', '', ...stat.D_keyCount]
-  stat.strokes[14] ? stat.strokes[14] = [...stat.strokes[14], '', '', '', ...row_percent]: stat.strokes[14] = [...Array(32).fill(''), '', '', '', ...row_percent]
-  stat.strokes[15] ? stat.strokes[15] = [...stat.strokes[15], '', '', '', ...down_row_percent]: stat.strokes[15] = [...Array(32).fill(''), '', '', '', ...down_row_percent]
-  //console.log(stat)
+  stat.strokes[2] ? stat.strokes[2] = [...stat.strokes[2], '', '', '', ...rowPercent] : stat.strokes[2] = [...Array(32).fill(''), '', '', '', ...rowPercent]
+  stat.strokes[3] ? stat.strokes[3] = [...stat.strokes[3], '', '', '', ...rightRowPercent] : stat.strokes[3] = [...Array(32).fill(''), '', '', '', ...rightRowPercent]
+  stat.strokes[4] ? stat.strokes[4] = [...stat.strokes[4], '', '', 'left-move', ...rowCountName] : stat.strokes[4] = [...Array(32).fill(''), '', '', ...rowCountName]
+  stat.strokes[5] ? stat.strokes[5] = [...stat.strokes[5], '', '', ...stat.L_keyCount] : stat.strokes[5] = [...Array(32).fill(''), '', '', ...stat.L_keyCount]
+  stat.strokes[6] ? stat.strokes[6] = [...stat.strokes[6], '', '', '', ...rowPercent] : stat.strokes[6] = [...Array(32).fill(''), '', '', '', ...rowPercent]
+  stat.strokes[7] ? stat.strokes[7] = [...stat.strokes[7], '', '', '', ...leftRowPercent] : stat.strokes[7] = [...Array(32).fill(''), '', '', '', ...leftRowPercent]
+  stat.strokes[8] ? stat.strokes[8] = [...stat.strokes[8], '', '', 'top-move', ...rowCountName] : stat.strokes[8] = [...Array(32).fill(''), '', '', ...rowCountName]
+  stat.strokes[9] ? stat.strokes[9] = [...stat.strokes[9], '', '', ...stat.T_keyCount] : stat.strokes[9] = [...Array(32).fill(''), '', '', ...stat.T_keyCount]
+  stat.strokes[10] ? stat.strokes[10] = [...stat.strokes[10], '', '', '', ...rowPercent] : stat.strokes[10] = [...Array(32).fill(''), '', '', '', ...rowPercent]
+  stat.strokes[11] ? stat.strokes[11] = [...stat.strokes[11], '', '', '', ...topRowPercent] : stat.strokes[11] = [...Array(32).fill(''), '', '', '', ...topRowPercent]
+  stat.strokes[12] ? stat.strokes[12] = [...stat.strokes[12], '', '', 'down-move', ...rowCountName] : stat.strokes[12] = [...Array(32).fill(''), '', '', ...rowCountName]
+  stat.strokes[13] ? stat.strokes[13] = [...stat.strokes[13], '', '', ...stat.D_keyCount] : stat.strokes[13] = [...Array(32).fill(''), '', '', ...stat.D_keyCount]
+  stat.strokes[14] ? stat.strokes[14] = [...stat.strokes[14], '', '', '', ...rowPercent] : stat.strokes[14] = [...Array(32).fill(''), '', '', '', ...rowPercent]
+  stat.strokes[15] ? stat.strokes[15] = [...stat.strokes[15], '', '', '', ...downRowPercent] : stat.strokes[15] = [...Array(32).fill(''), '', '', '', ...downRowPercent]
+  // console.log(stat)
   return stat
 }
 
