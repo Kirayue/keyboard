@@ -84,8 +84,8 @@ $(document).ready(() => {
     $('#timer').countdown(new Date().getTime() + app.duration).countdown('stop')
   })
   const tapHandler = event => {
-    let timestamp = new Date().getTime()
-    if (app.state && timestamp - lastTime > 10) {
+    const timestamp = new Date().getTime()
+    if (app.state && timestamp - lastTime > 60) {
       const key = app.targetKeys.shift()
       $(`#${key.id}`).removeClass(key.color).text('') // restore key
       if (key.id !== event.target.getAttribute('id')) {

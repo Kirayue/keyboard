@@ -78,39 +78,43 @@ const calculateStat = (trial) => {
     stroke[i++] = curStroke.user.x // x
     stroke[i++] = curStroke.user.y // y
     displacement(lastStroke.user) // displacement related last stroke
-    stroke[i++] = stroke[i - 2] / stroke[i - 9] // speed (displacement / duration)
+    stroke[i++] = stroke[i - 2] / stroke[i - 11] // speed (displacement / duration)
     displacement(stat.keyCenter[keyId]) // displacement related key center
+    stroke[i++] = `${stroke[10]} ${stroke[18]}`
+    stroke[i++] = `${stroke[11]} ${stroke[19]}`
     stroke[i++] = stat.strokeCenter[keyId].x // x of stroke center
     stroke[i++] = stat.strokeCenter[keyId].y // y of stroke center
     displacement(stat.strokeCenter[keyId]) // displacement related stroke center
+    stroke[i++] = `${stroke[10]} ${stroke[29]}`
+    stroke[i++] = `${stroke[11]} ${stroke[30]}`
 
     if (stroke[10] === 'Right') {
       stat.R_keyCount[0]++
       stroke[18] === 'Left' ? stat.R_keyCount[1]++ : stat.R_keyCount[2]++
-      stroke[27] === 'Left' ? stat.R_keyCount[3]++ : stat.R_keyCount[4]++
+      stroke[29] === 'Left' ? stat.R_keyCount[3]++ : stat.R_keyCount[4]++
       stroke[19] === 'Top' ? stat.R_keyCount[5]++ : stat.R_keyCount[6]++
-      stroke[28] === 'Top' ? stat.R_keyCount[7]++ : stat.R_keyCount[8]++
+      stroke[30] === 'Top' ? stat.R_keyCount[7]++ : stat.R_keyCount[8]++
     }
     else {
       stat.L_keyCount[0]++
       stroke[18] === 'Left' ? stat.L_keyCount[1]++ : stat.L_keyCount[2]++
-      stroke[27] === 'Left' ? stat.L_keyCount[3]++ : stat.L_keyCount[4]++
+      stroke[29] === 'Left' ? stat.L_keyCount[3]++ : stat.L_keyCount[4]++
       stroke[19] === 'Top' ? stat.L_keyCount[5]++ : stat.L_keyCount[6]++
-      stroke[28] === 'Top' ? stat.L_keyCount[7]++ : stat.L_keyCount[8]++
+      stroke[30] === 'Top' ? stat.L_keyCount[7]++ : stat.L_keyCount[8]++
     }
     if (stroke[11] === 'Top') {
       stat.T_keyCount[0]++
       stroke[18] === 'Left' ? stat.T_keyCount[1]++ : stat.T_keyCount[2]++
-      stroke[27] === 'Left' ? stat.T_keyCount[3]++ : stat.T_keyCount[4]++
+      stroke[29] === 'Left' ? stat.T_keyCount[3]++ : stat.T_keyCount[4]++
       stroke[19] === 'Top' ? stat.T_keyCount[5]++ : stat.T_keyCount[6]++
-      stroke[28] === 'Top' ? stat.T_keyCount[7]++ : stat.T_keyCount[8]++
+      stroke[30] === 'Top' ? stat.T_keyCount[7]++ : stat.T_keyCount[8]++
     }
     else {
       stat.D_keyCount[0]++
       stroke[18] === 'Left' ? stat.D_keyCount[1]++ : stat.D_keyCount[2]++
-      stroke[27] === 'Left' ? stat.D_keyCount[3]++ : stat.D_keyCount[4]++
+      stroke[29] === 'Left' ? stat.D_keyCount[3]++ : stat.D_keyCount[4]++
       stroke[19] === 'Top' ? stat.D_keyCount[5]++ : stat.D_keyCount[6]++
-      stroke[28] === 'Top' ? stat.D_keyCount[7]++ : stat.D_keyCount[8]++
+      stroke[30] === 'Top' ? stat.D_keyCount[7]++ : stat.D_keyCount[8]++
     }
 
     stat.strokes.push(stroke)
@@ -119,9 +123,9 @@ const calculateStat = (trial) => {
   const rowCountName = ['Left to kc', 'Right to kc', 'Left to skc', 'Right to skc', 'Top to kc', 'Down to kc', 'Top to skc', 'Down to skc']
   stat.strokes.unshift(['T/F', 'Order', 'Count', 'Target', 'User', 'Duration(ms)',
                         'X', 'Y', 'displacement X', 'displacement Y', 'h-dir-move', 'v-dir-move', 'abs X', 'abs Y', 'distance', 'velocity(px/ms)',
-                        'X to kc', 'Y to kc', 'h-dir-move', 'v-dir-move', 'abs X to kc', 'abs Y to kc', 'distance to kc',
-                        'shifted X', 'shifted Y', 'X to skc', 'Y to skc', 'h-dir-move', 'v-dir-move', 'abs X to skc', 'abs Y to skc', 'distance to skc',
-                        'WPM', 'accuracy', ...rowCountName])
+                        'X to kc', 'Y to kc', 'h-dir-move', 'v-dir-move', 'abs X to kc', 'abs Y to kc', 'distance to kc', 'h-dir-move with kc', 'v-dir-move with kc',
+                        'shifted X', 'shifted Y', 'X to skc', 'Y to skc', 'h-dir-move', 'v-dir-move', 'abs X to skc', 'abs Y to skc', 'distance to skc', 'h-dir-move with skc', 'v-dir-move with skc',
+                        'WPM', 'accuracy', 'right-move', ...rowCountName])
   stat.accuracy = stat.nCorrect / stat.nStroke
   const rowPercent = ['Left to kc %', 'Right to kc %', 'Left to skc %', 'Right to skc %', 'Top to kc %', 'Down to kc %', 'Top to skc %', 'Down to kc %']
   const rightRowPercent = stat.R_keyCount.map((value, index, arr) => (arr[0] === 0 ? 0 : value / arr[0] * 100)).slice(1, stat.R_keyCount.length)
