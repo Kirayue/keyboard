@@ -147,7 +147,34 @@ const calculateStat = (trial) => {
   stat.strokes[13] ? stat.strokes[13] = [...stat.strokes[13], '', '', ...stat.D_keyCount] : stat.strokes[13] = [...Array(32).fill(''), '', '', ...stat.D_keyCount]
   stat.strokes[14] ? stat.strokes[14] = [...stat.strokes[14], '', '', '', ...rowPercent] : stat.strokes[14] = [...Array(32).fill(''), '', '', '', ...rowPercent]
   stat.strokes[15] ? stat.strokes[15] = [...stat.strokes[15], '', '', '', ...downRowPercent] : stat.strokes[15] = [...Array(32).fill(''), '', '', '', ...downRowPercent]
-  // console.log(stat)
+
+  const row18 = ['Xmove', 'XmovePoint', 'times(kc)', '100%(kc)', 'times(skc)', '100%(skc)', 'Ymove', 'YmovePoint', 'times(kc)', '100%(kc)', 'times(skc)', '100%(skc)']
+  stat.strokes[18] ? stat.strokes[18] = [...stat.strokes[18], '', '', ...row18] : stat.strokes[18] = [...Array(38).fill(''), ...row18]
+
+  const row19 = ['right-move', 'RR', stat.R_keyCount[2], rightRowPercent[1], stat.R_keyCount[4], rightRowPercent[3], 'top-move', 'TT', stat.T_keyCount[5], topRowPercent[4], stat.T_keyCount[6], topRowPercent[6]]
+  stat.strokes[19] ? stat.strokes[19] = [...stat.strokes[19], '', '', ...row19] : stat.strokes[19] = [...Array(38).fill(''), ...row19]
+ 
+  const row20 = [stat.R_keyCount[0], 'RL', stat.R_keyCount[1], rightRowPercent[0], stat.R_keyCount[3], rightRowPercent[2], stat.T_keyCount[0], 'TD', stat.T_keyCount[6], topRowPercent[5], stat.T_keyCount[7], topRowPercent[7]]
+  stat.strokes[20] ? stat.strokes[20] = [...stat.strokes[20], '', '', ...row20] : stat.strokes[20] = [...Array(38).fill(''), ...row20]
+
+  const row21 = ['left-move', 'LR', stat.L_keyCount[2], leftRowPercent[1], stat.L_keyCount[4], leftRowPercent[3], 'down-move', 'DT', stat.D_keyCount[5], downRowPercent[4], stat.D_keyCount[6], downRowPercent[6]]
+  stat.strokes[21] ? stat.strokes[21] = [...stat.strokes[21], '', '', ...row21] : stat.strokes[21] = [...Array(38).fill(''), ...row21]
+
+  const row22 = [stat.L_keyCount[0], 'LL', stat.L_keyCount[1], leftRowPercent[0], stat.L_keyCount[3], leftRowPercent[2], stat.D_keyCount[0], 'DD', stat.D_keyCount[6], downRowPercent[5], stat.D_keyCount[7], downRowPercent[7]]
+  stat.strokes[22] ? stat.strokes[22] = [...stat.strokes[22], '', '', ...row22] : stat.strokes[22] = [...Array(38).fill(''), ...row22]
+
+  const row23 = ['right-move', 'RT', stat.R_keyCount[5], rightRowPercent[4], stat.R_keyCount[7], rightRowPercent[6], 'top-move', 'TR', stat.T_keyCount[2], topRowPercent[1], stat.T_keyCount[2], topRowPercent[3]]
+  stat.strokes[23] ? stat.strokes[23] = [...stat.strokes[23], '', '', ...row23] : stat.strokes[23] = [...Array(38).fill(''), ...row23]
+
+  const row24 = [stat.R_keyCount[0], 'RD', stat.R_keyCount[6], rightRowPercent[5], stat.R_keyCount[8], rightRowPercent[7], stat.T_keyCount[0], 'TL', stat.T_keyCount[1], topRowPercent[0], stat.T_keyCount[1], topRowPercent[2]]
+  stat.strokes[24] ? stat.strokes[24] = [...stat.strokes[24], '', '', ...row24] : stat.strokes[24] = [...Array(38).fill(''), ...row24]
+
+  const row25 = ['left-move', 'LT', stat.L_keyCount[5], leftRowPercent[4], stat.L_keyCount[7], leftRowPercent[6], 'down-move', 'DR', stat.D_keyCount[2], downRowPercent[1], stat.D_keyCount[2], downRowPercent[3]]
+  stat.strokes[25] ? stat.strokes[25] = [...stat.strokes[25], '', '', ...row25] : stat.strokes[25] = [...Array(38).fill(''), ...row25]
+
+  const row26 = [stat.L_keyCount[0], 'LD', stat.L_keyCount[6], leftRowPercent[5], stat.L_keyCount[8], leftRowPercent[7], stat.D_keyCount[0], 'DL', stat.D_keyCount[1], downRowPercent[0], stat.D_keyCount[1], downRowPercent[2]]
+  stat.strokes[26] ? stat.strokes[26] = [...stat.strokes[26], '', '', ...row26] : stat.strokes[26] = [...Array(38).fill(''), ...row26]
+  console.log(stat.strokeCenter)
   return stat
 }
 
@@ -181,4 +208,4 @@ if (process.env.HTTP_HOST) { // from apache
 
 module.exports = Do
 
-// vi:et:sw=2:ts=2:sts=2
+// wi:et:sw=2:ts=2:sts=2
