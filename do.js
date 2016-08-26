@@ -153,7 +153,7 @@ const calculateStat = (trial) => {
 
   const row19 = ['right-move', 'RR', stat.R_keyCount[2], rightRowPercent[1], stat.R_keyCount[4], rightRowPercent[3], 'top-move', 'TT', stat.T_keyCount[5], topRowPercent[4], stat.T_keyCount[6], topRowPercent[6]]
   stat.strokes[19] ? stat.strokes[19] = [...stat.strokes[19], '', '', ...row19] : stat.strokes[19] = [...Array(38).fill(''), ...row19]
- 
+
   const row20 = [stat.R_keyCount[0], 'RL', stat.R_keyCount[1], rightRowPercent[0], stat.R_keyCount[3], rightRowPercent[2], stat.T_keyCount[0], 'TD', stat.T_keyCount[6], topRowPercent[5], stat.T_keyCount[7], topRowPercent[7]]
   stat.strokes[20] ? stat.strokes[20] = [...stat.strokes[20], '', '', ...row20] : stat.strokes[20] = [...Array(38).fill(''), ...row20]
 
