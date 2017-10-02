@@ -37,21 +37,51 @@ $brown: #a52a2a
     .key
       background: url('res/button.png')
       display: inline-block
-      font-size: 9vw
-      font-weight: bolder
+      font-size: larger
+      font-weight: 900
       height: $key-height
-      line-height: $key-height
+      //line-height: $key-height
       vertical-align: top
       width: $key-width
+      position: relative
 
-      &.red
-        color: $red
 
-      &.blue
-        color: $blue
+      .text
+        height: $key-height / 2
+        width: $key-width / 2
+        line-height: $key-height / 2
+        position: absolute
+
+        &.red
+          color: $red
+
+        &.blue
+          color: $blue
+
+      .tl
+        top: 0
+        left: 0
+
+      .tr
+        top: 0
+        right: 0
+
+      .bl
+        bottom: 0
+        left: 0
+
+      .br
+        bottom: 0
+        right: 0
+
+      .center
+        left: 50%
+        top: 50%
+        transform: translateX(-50%) translateY(-50%)
 
     .key+.key
       margin-left: $horizontal-gap
+    
 
   #space
     margin-left: $key-width + $horizontal-gap

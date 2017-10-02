@@ -11,22 +11,22 @@ import webpackConfig from './webpack.config.babel.js'
 const dist = 'dist'
 
 gulp.task('do', () => {
-  return gulp.src('do.js')
+  return gulp.src('do2.js')
     .pipe(require('gulp-babel')())
     .pipe(gulpInsert.prepend('#!/usr/local/bin/node\n'))
-    .pipe(gulpRename('do'))
+    .pipe(gulpRename('do2.njs'))
     .pipe(gulpChmod(755))
     .pipe(gulp.dest(dist))
 })
 
 gulp.task('server', ['do', 'webpack'], () => {
-  const Do = require('./do')
+  const Do = require('./do2')
   const express = require('express')
   const bodyParser = require('body-parser')
   const server = express()
   server.use(bodyParser.urlencoded({ extended: false }))
   server.use(bodyParser.json())
-  server.post('/do', (req, res) => {
+  server.post('/do2.njs', (req, res) => {
     // console.log(req.body.trial)
     Do(req.body, res)
     res.end()
@@ -35,7 +35,7 @@ gulp.task('server', ['do', 'webpack'], () => {
   fs.readFile('port', { encoding: 'utf-8' }, (err, _port = 8080) => {
     const port = parseInt(_port, 10)
     server.listen(port, () => {
-      console.log(`Port:${port}`)
+      console.log(`Express Server Port:${port}`)
     })
   })
 })

@@ -4,7 +4,7 @@ html
     meta(content='width=device-width,initial-scale=1.0,user-scalable=no' name='viewport')
     title Keyboard
     link(href='//code.jquery.com/mobile/1.4.5/jquery.mobile-1.4.5.min.css' rel='stylesheet')
-    link(href='app.css' rel='stylesheet')
+    link(href='app2.css' rel='stylesheet')
   //
     script(src='https://ajax.googleapis.com/ajax/libs/jquery/2.2.4/jquery.min.js')
     script(src='http://code.jquery.com/mobile/1.4.5/jquery.mobile-1.4.5.min.js')
@@ -12,17 +12,35 @@ html
   body
     button(data-theme='b')#stop Stop
     button(data-theme='b')#restart Restart
+    div(data-role='navbar')
+        ul
+            li 
+                button.ui-btn#random Random
+            li 
+                button.ui-btn#center Center
+        ul
+            li 
+                button.ui-btn#tr TR
+            li 
+                button.ui-btn#tl TL
+            li 
+                button.ui-btn#br BR
+            li 
+                button.ui-btn#bl BL
     #timer
     #keyboard
      .row
       each key in ['q','w','e','r','t','y','u','i','o','p']
         .key(id=key) 
+            .text
      .row 
       each key in ['a','s','d','f','g','h','j','k','l']
         .key(id=key)
+            .text
      .row 
       each key in ['z','x','c','v','b','n','m']
         .key(id=key) 
+            .text
      .row: .key#space
-     script(src='app.js')
+     script(src='app2.js')
 //- vi:et:nowrap
